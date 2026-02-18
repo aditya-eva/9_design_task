@@ -19,12 +19,12 @@ window.addEventListener("keydown", (e) => {
   }
    if(e.key.toLowerCase() == 'o'){
     const aspect = window.innerWidth / window.innerHeight;
-    const frustumSize = 6;
+    const size = 6;
     camera = new THREE.OrthographicCamera(
-        -frustumSize * aspect / 2,
-        frustumSize * aspect / 2,
-        frustumSize / 2,
-        -frustumSize / 2,
+        -size * aspect / 2,
+        size * aspect / 2,
+        size / 2,
+        -size / 2,
         0.1,
         100
     )
