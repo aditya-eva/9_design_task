@@ -9,7 +9,7 @@ let camera = new THREE.PerspectiveCamera(
         100
     )
 window.addEventListener("keydown", (e) => {
-  if(e.key == 'p') {
+  if(e.key.toLowerCase() == 'p') {
     camera = new THREE.PerspectiveCamera(
         60,
         window.innerWidth / window.innerHeight,
@@ -17,7 +17,7 @@ window.addEventListener("keydown", (e) => {
         100
     )
   }
-   if(e.key == 'o'){
+   if(e.key.toLowerCase() == 'o'){
     const aspect = window.innerWidth / window.innerHeight;
     const frustumSize = 6;
     camera = new THREE.OrthographicCamera(
@@ -29,12 +29,12 @@ window.addEventListener("keydown", (e) => {
         100
     )
   }
-  camera.position.set(4, 4, 6);
+  camera.position.set(4, 4, 15);
   camera.lookAt(0, 0, 0);
   camera.updateProjectionMatrix();
 });
 
-camera.position.set(4, 4, 6);
+
 camera.lookAt(0, 0, 0);
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(10, 10),
@@ -66,43 +66,62 @@ const material = new THREE.MeshStandardMaterial({
 })
 
 // console.log(geometry);
+let line;
 window.addEventListener('keydown', (e) => {
     if(e.key == "2") {
         // geometry = new THREE.CapsuleGeometry(2, 3);
         // console.log(mesh);
         // console.log(geometry);
+        if(!scene.mesh) scene.add(mesh);
+        scene.remove(line);
         mesh.geometry = new THREE.CapsuleGeometry(1, 2);
-        mesh.material = new THREE.MeshDepthMaterial({
-            transparent: true,
-            opacity: 0.59
+        mesh.material = new THREE.MeshPhongMaterial({
+            color: "white",
+            shininess: 35,
+            map: color,
+            normalMap: normal,
+            transparent: true
         })
     }
     else if(e.key == "3") { 
+        if(!scene.mesh) scene.add(mesh);
+        scene.remove(line);
         mesh.geometry = new THREE.ConeGeometry(1, 2, 32, 32, true);
         mesh.material = material
     }
     else if(e.key == "4") {
+        if(!scene.mesh) scene.add(mesh);
+        scene.remove(line);
         mesh.geometry = new THREE.CylinderGeometry(1, 1.3, 2);
     }
     else if(e.key == "5") {
+        scene.remove(mesh);
         let geometry = new THREE.ConeGeometry(1,2);
         let edges = new THREE.EdgesGeometry(geometry);
-        const line = new THREE.LineSegments(edges);
+        line = new THREE.LineSegments(edges);
         scene.add(line);
     }
     else if(e.key == "6") {
+        scene.add(mesh)
+        scene.remove(line);
         const arcShape = new THREE.Shape()
             .moveTo(1, 3)
             .absarc( 1, 1.5, 1.8, 0, Math.PI , false );
         mesh.geometry = new THREE.ShapeGeometry( arcShape );
     }
     else if(e.key == "7") {
+        scene.add(mesh)
+        scene.remove(line);
         mesh.geometry = new THREE.TorusGeometry(1, 1, 12, 48, 4.155);
     }
     else if(e.key == "8") {
+        scene.add(mesh)
+        scene.remove(line);
         mesh.geometry = new THREE.TubeGeometry();
     }
     else if(e.key == "9") {
+        if(!scene.mesh) scene.add(mesh);
+        scene.remove(line);
         let buffGeo = new THREE.BufferGeometry();
         const count = 40;
         const array = new Float32Array(count*4*3);
@@ -112,9 +131,12 @@ window.addEventListener('keydown', (e) => {
         const positionAttribute = new THREE.BufferAttribute(array, 3);
         buffGeo.setAttribute("position", positionAttribute);
         mesh.geometry = buffGeo;
+    }else {
+        if(!scene.mesh) scene.add(mesh);
+        scene.remove(line);
+        mesh.geometry = new THREE.BoxGeometry(2, 2, 2);
     }
 }) 
-
  
 const mesh = new THREE.Mesh(geometry, material);
 // console.log(mesh);
@@ -127,7 +149,7 @@ const mesh = new THREE.Mesh(geometry, material);
 // }
 
 scene.add(mesh);
-console.log(scene);
+// console.log(scene);
 mesh.castShadow = true;
 mesh.receiveShadow = true;
 
@@ -169,7 +191,7 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 })
-
+camera.position.set(4, 4, 15);
 let clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
