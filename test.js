@@ -199,6 +199,11 @@ function animate() {
   mesh.position.y = Math.sin(elapsedTime) * 0.5;
   mesh.rotation.y += 0.01;
   mesh.rotation.x += 0.01;
+  if(line){
+    line.rotation.x = Math.PI/4;
+    line.rotation.y += 0.01
+    line.position.y = Math.sin(clock.getElapsedTime());
+   }
   controls.update();
   renderer.render(scene, camera);
 }
