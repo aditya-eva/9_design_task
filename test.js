@@ -1,41 +1,17 @@
 import * as THREE from "three";
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { getCamera, switchCamera } from "./cameras/cameraController";
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x111111);
-let camera = new THREE.PerspectiveCamera(
-        60,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        100
-    )
+
+
+let camera = getCamera();
 window.addEventListener("keydown", (e) => {
-  if(e.key.toLowerCase() == 'p') {
-    camera = new THREE.PerspectiveCamera(
-        60,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        100
-    )
-  }
-   if(e.key.toLowerCase() == 'o'){
-    const aspect = window.innerWidth / window.innerHeight;
-    const size = 6;
-    camera = new THREE.OrthographicCamera(
-        -size * aspect / 2,
-        size * aspect / 2,
-        size / 2,
-        -size / 2,
-        0.1,
-        100
-    )
-  }
-  camera.position.set(4, 4, 15);
-  camera.lookAt(0, 0, 0);
-  camera.updateProjectionMatrix();
+    camera = switchCamera(e.key, camera);
+    controls.object = camera;
 });
 
 
-camera.lookAt(0, 0, 0);
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(10, 10),
   new THREE.MeshStandardMaterial({ color: "brown" })
