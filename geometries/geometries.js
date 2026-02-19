@@ -17,7 +17,7 @@ export const geometries = {
     return new THREE.CylinderGeometry(1, 1.3, 2);
   },
   torus: () => {
-    return new THREE.TorusGeometry(1, 0.4, 16, 48);
+    return new THREE.TorusGeometry(1, 0.6, 32, 12);
   },
   shapeArc: () => {
     const arcShape = new THREE.Shape()

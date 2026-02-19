@@ -30,9 +30,12 @@ export function setupKeyboard(scene) {
             mesh.geometry = geometries.cylinder();
         } else if (e.key === "5") {
             scene.remove(mesh);
-            const edgeGeometry = geometries.cone();
+            const edgeGeometry = geometries.torus();
             const edges = new THREE.EdgesGeometry(edgeGeometry);
-            edgeLine = new THREE.LineSegments(edges);
+            const edgeMaterial = new THREE.LineBasicMaterial({
+                color: "cyan" 
+            });
+            edgeLine = new THREE.LineSegments(edges, edgeMaterial);
             scene.add(edgeLine);
         } else if (e.key === "6") {
             mesh.geometry = geometries.shapeArc();
@@ -43,7 +46,7 @@ export function setupKeyboard(scene) {
             mesh.material = materials.phong;
         } else if (e.key === "9") {
             mesh.geometry = geometries.randomBuffer();
-            mesh.material = materials.normal;
+            mesh.material = materials.phong;
         } else {
             mesh.geometry = geometries.box();
             mesh.material = materials.standard;
