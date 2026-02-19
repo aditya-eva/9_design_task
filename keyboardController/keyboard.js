@@ -51,3 +51,5 @@ export function setupKeyboard(scene) {
     }
   });
 }
+
+export {edgeLine}

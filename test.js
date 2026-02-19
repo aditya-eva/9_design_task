@@ -4,7 +4,7 @@ import { getCamera, switchCamera } from "./cameras/cameraController";
 import { addLights } from "./lights/lights";
 import { createFloor } from "./objects/floor";
 import { mesh } from "./objects/mesh";
-import { setupKeyboard } from "./keyboardController/keyboard";
+import { edgeLine, setupKeyboard } from "./keyboardController/keyboard";
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x111111);
 
@@ -42,8 +42,13 @@ function animate() {
   requestAnimationFrame(animate);
   let elapsedTime = clock.getElapsedTime();
   mesh.position.y = Math.sin(elapsedTime) * 0.5;
-  mesh.rotation.y += 0.01;
-  mesh.rotation.x += 0.01;
+  mesh.rotation.y += 0.02;
+  mesh.rotation.x += 0.02;
+  if(edgeLine) {
+    edgeLine.rotation.y += 0.01;
+    edgeLine.rotation.x += 0.01;
+    edgeLine.position.x = Math.sin(elapsedTime) * 0.5;
+  }
   controls.update();
   renderer.render(scene, camera);
 }
