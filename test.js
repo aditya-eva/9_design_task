@@ -1,9 +1,16 @@
 import * as THREE from "three";
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { getCamera, switchCamera } from "./cameras/cameraController";
+import { addLights } from "./lights/lights";
+import { createFloor } from "./objects/floor";
+import { mesh } from "./objects/mesh";
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x111111);
 
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+document.body.appendChild(renderer.domElement);
 
 let camera = getCamera();
 window.addEventListener("keydown", (e) => {
@@ -11,21 +18,9 @@ window.addEventListener("keydown", (e) => {
     controls.object = camera;
 });
 
-
-const floor = new THREE.Mesh(
-  new THREE.PlaneGeometry(10, 10),
-  new THREE.MeshStandardMaterial({ color: "brown" })
-);
-floor.rotation.x = -Math.PI / 2;
-floor.position.y = -2;
-floor.receiveShadow = true;
+const floor = createFloor();
 scene.add(floor);
-
-
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.shadowMap.enabled = true;
-document.body.appendChild(renderer.domElement);
+scene.add(mesh);
 
 const textureLoader = new THREE.TextureLoader();
 const color = textureLoader.load('./assets/color.jpg');
@@ -41,7 +36,6 @@ const material = new THREE.MeshStandardMaterial({
     side: THREE.DoubleSide
 })
 
-// console.log(geometry);
 let line;
 window.addEventListener('keydown', (e) => {
     if(e.key == "2") {
@@ -113,54 +107,11 @@ window.addEventListener('keydown', (e) => {
         mesh.geometry = new THREE.BoxGeometry(2, 2, 2);
     }
 }) 
- 
-const mesh = new THREE.Mesh(geometry, material);
-// console.log(mesh);
-// console.log(edges);
-// console.log(line);
-// if(scene?.children?.includes(line)) {
-//     scene.add(line);
-// }else {
-//     scene.add(mesh);
-// }
-
-scene.add(mesh);
-// console.log(scene);
-mesh.castShadow = true;
-mesh.receiveShadow = true;
-
-
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.3) 
-scene.add(ambientLight);
-
-
-const directionalLight = new THREE.DirectionalLight("white", 0.8);
-directionalLight.position.set(5, 5, 5);
-directionalLight.castShadow = true;
-scene.add(directionalLight);
-
-
-const pointLight = new THREE.PointLight(0xffffff, 0.5, 50);
-pointLight.position.set(0, 2, 0);
-pointLight.castShadow = true;
-scene.add(pointLight);
-
-
-const spotLight = new THREE.SpotLight("white", 2);
-spotLight.position.set(1, 2, 2);
-spotLight.angle = Math.PI / 6;
-spotLight.castShadow = true;
-scene.add(spotLight);
-
-const dirHelper = new THREE.DirectionalLightHelper(directionalLight, 1);
-// scene.add(dirHelper);
-const pointHelper = new THREE.PointLightHelper(pointLight, 1);
-// scene.add(pointHelper);
-const spotHelper = new THREE.SpotLightHelper(spotLight);
-// scene.add(spotHelper);
+addLights(scene);
 
 const controls = new OrbitControls(camera, renderer.domElement);
-
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
 
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight
