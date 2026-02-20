@@ -1,22 +1,27 @@
+
 import * as THREE from "three";
 
 export function addLights(scene) {
-  const ambient = new THREE.AmbientLight(0xffffff, 0.3);
-  scene.add(ambient);
 
-  const directional = new THREE.DirectionalLight(0xffffff, 0.8);
-  directional.position.set(5, 5, 5);
-  directional.castShadow = true;
-  scene.add(directional);
+  const lights = {};
 
-  const point = new THREE.PointLight(0xffffff, 0.5, 10);
-  point.position.set(0, 2, 0);
-  point.castShadow = true;
-  scene.add(point);
+  lights.ambient = new THREE.AmbientLight(0xffffff, 1);
 
-  const spot = new THREE.SpotLight(0xffffff, 2);
-  spot.position.set(1, 2, 2);
-  spot.angle = Math.PI / 6;
-  spot.castShadow = true;
-  scene.add(spot);
+  lights.directional = new THREE.DirectionalLight(0xffffff, 2);
+  lights.directional.position.set(2, 5, 5);
+  lights.directional.castShadow = true;
+
+  lights.point = new THREE.PointLight(0xffffff, 50);
+  lights.point.position.set(-1, 3, 1);
+  lights.point.castShadow = true;
+
+  lights.spot = new THREE.SpotLight(0xffffff, 50);
+  lights.spot.position.set(0, 4, 0);
+  lights.spot.angle = Math.PI / 6;
+  lights.spot.castShadow = true;
+
+  // Add all lights initially
+  Object.values(lights).forEach(light => scene.add(light));
+
+  return lights;
 }

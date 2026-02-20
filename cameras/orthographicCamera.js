@@ -11,7 +11,7 @@ export function orthographicCamera() {
     0.1,
     100
   );
-  camera.position.set(4, 4, 6);
+  camera.position.set(40, 20, 40);
   camera.lookAt(0, 0, 0);
   return camera;
 }

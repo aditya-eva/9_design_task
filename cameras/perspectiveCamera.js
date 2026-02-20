@@ -8,7 +8,7 @@ export function perspectiveCamera() {
     100
   );
 
-  camera.position.set(4, 4, 6);
+  camera.position.set(10, 10, 0);
   camera.lookAt(0, 0, 0);
   return camera;
 }

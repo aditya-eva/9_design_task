@@ -86,7 +86,28 @@ scene.add(mesh);
 
 setupKeyboard(scene);
 
-addLights(scene);
+const lights = addLights(scene);
+const lightSelect = document.getElementById("light-select");
+
+function updateLights(type) {
+  Object.keys(lights).forEach(key => {
+    lights[key].visible = false;
+  });
+
+  if (type === "all") {
+    Object.keys(lights).forEach(key => {
+      lights[key].visible = true;
+    });
+  } else if (lights[type]) {
+    lights[type].visible = true;
+  }
+}
+
+if (lightSelect) {
+  lightSelect.addEventListener("change", (e) => {
+    updateLights(e.target.value);
+  });
+}
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
@@ -104,7 +125,7 @@ function animate() {
 
   const elapsedTime = clock.getElapsedTime();
 
-  mesh.position.y = Math.sin(elapsedTime) * 0.5;
+  // mesh.position.y = Math.sin(elapsedTime) * 0.5;
   mesh.rotation.x += 0.01;
   mesh.rotation.y += 0.01;
   if(currentCurve) {
