@@ -70,3 +70,41 @@ canvas{
     font-size: 13px;
     opacity: 0.8;
 }
+
+
+#control-panel {
+    position: absolute;
+    top: 150px;
+    left: 20px;
+    padding: 20px;
+    background-color: beige;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+    color: black;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.control-group label {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.control-group select {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    background: #1f1f2e;
+    color: white;
+    cursor: pointer;
+}

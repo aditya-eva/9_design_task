@@ -26,6 +26,40 @@
         <div>P for Perspective</div>
         <div>O for Orthographic</div>
       </div>
-    <script type="module" src="/test.js"></script>
+      <div id="control-panel">
+        <div class="control-group">
+          <label>Geometry</label>
+          <select id="geometry-select">
+            <option value="box">Box</option>
+            <option value="sphere">Sphere</option>
+            <option value="cone">Cone</option>
+            <option value="cylinder">Cylinder</option>
+            <option value="torus">Torus</option>
+            <option value="capsule">Capsule</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Material</label>
+          <select id="material-select">
+            <option value="standard">Standard</option>
+            <option value="phong">Phong</option>
+            <option value="basic">Basic</option>
+            <option value="normal">Normal</option>
+            <option value="lambert">Lambert</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Curve</label>
+          <select id="curvature-select">
+            <option value="arcCurve">ArcCurve</option>
+            <option value="catmullRomCurve3">CatmullRomCurve3</option>
+            <option value="cubicBezierCurve">Cubic Bezier Curve</option>
+            <option value="ellipseCurve">Ellipse Curve</option>
+            <option value="splineCurve">Spline Curve</option>
+          </select>
+        </div>
+      </div>
+
+    <script type="module" src="./test.js"></script>
   </body>
 </html>

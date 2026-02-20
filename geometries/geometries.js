@@ -4,6 +4,9 @@ export const geometries = {
   box: () => {
     return new THREE.BoxGeometry(2, 2, 2);
   },
+  sphere: (radius = 1.5) => {
+    return new THREE.SphereGeometry(radius, 32, 32)
+  },
   plane: () => {
     return new THREE.PlaneGeometry(10, 10);
   }, 

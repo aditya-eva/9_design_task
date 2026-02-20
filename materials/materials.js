@@ -19,7 +19,6 @@ export const materials = {
 
   basic: new THREE.MeshBasicMaterial({
     color: "red",
-    wireframe: true
   }),
 
   normal: new THREE.MeshNormalMaterial()
