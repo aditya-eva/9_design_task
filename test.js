@@ -4,7 +4,7 @@ import { getCamera, switchCamera } from "./cameras/cameraController";
 import { addLights } from "./lights/lights";
 import { createFloor } from "./objects/floor";
 import { mesh } from "./objects/mesh";
-import { edgeLine, setupKeyboard } from "./keyboardController/keyboard";
+import { setupKeyboard } from "./keyboardController/keyboard";
 import { geometries } from "./geometries/geometries";
 import { materials } from "./materials/materials";
 import { curves } from "./curves/curves";

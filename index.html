@@ -2,10 +2,11 @@
 <html>
   <head>
     <title>Three.js App</title>
-    <link rel="stylesheet" href="index.css">
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <link rel="stylesheet" href="first.css">
   </head>
   <body>
-      <div id="profile-card">
+      <!-- <div id="profile-card">
         <img src="assets/image.png" alt="Aditya Mohaty" id="profile-img" />
         <div id="profile-info">
           <h2>Aditya Mohaty</h2>
@@ -68,8 +69,31 @@
             <option value="all">All Lights</option>
           </select>
         </div>
-      </div>
+      </div> -->
+    <!-- <script type="module" src="./test.js"></script> -->
+    <body>
+      <div>
+          <label for="length">Length</label>
+          <p class="len"></p>
+          <input id="length" type="range" min="100" max="500" value="100">
 
-    <script type="module" src="./test.js"></script>
+          <label for="breadth">Breadth</label>
+          <p class="bread"></p>
+          <input id="breadth" type="range" min="100" max="500" value="100">
+
+          <label for="depth">Depth</label>
+          <p class="dep"></p>
+          <input id="depth" type="range" min="100" max="500" value="200">
+
+          <label for="radius">Radius</label>
+          <p class="rad"></p>
+          <input id="radius" type="range" min="10" max="500" value="10">
+
+          <label for="noOfHoles">Holes</label>
+          <input id="noOfHoles" type="Number" value="4">
+      </div>
+      <script type="module" src="/main.js"></script>
+    </body>
+    <script type="module" src="./first.js"></script>
   </body>
 </html>
