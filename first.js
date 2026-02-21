@@ -6,11 +6,16 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x0f172a);
 
 
-const camera = new THREE.PerspectiveCamera(
-  60,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  5000
+const aspect = window.innerWidth / window.innerHeight;
+const size = 150;
+
+const camera = new THREE.OrthographicCamera(
+    -size * aspect, 
+    size * aspect,  
+    size,           
+    -size,          
+    0.1,            
+    5000
 );
 
 
@@ -49,16 +54,10 @@ function shapeUpdate() {
     const depth = Number(d.value);
     let radius = Number(r.value);
     let num = Number(n.value);
+    const dia = 2*radius;
 
     if(num % 2 !== 0) {
-        alert("Give even number of holes! ");
-    }
-
-    const maximum = Math.min(length, breadth)*0.25;
-    if(radius >= maximum) {
-        alert(`Warning !!! Max Radius of " ${maximum} "is reached.`)
-        radius = 10;
-        r.value = 10;
+        return;
     }
    
     len.innerText = length;
@@ -72,13 +71,34 @@ function shapeUpdate() {
     shape.lineTo(length, breadth);
     shape.lineTo(0, breadth);
     shape.lineTo(0, 0);
-
-    
-
-    shape.holes.push(createHole(length/4, breadth/4, radius));
-    shape.holes.push(createHole(3*length/4, breadth/4, radius));
-    shape.holes.push(createHole(length/4, 3*breadth/4, radius));
-    shape.holes.push(createHole(3*length/4, 3*breadth/4, radius));
+    if(length <= 2 * (num/2) * radius || breadth <= 2*(num/2) * radius) {
+        alert(`Warning !!! Max Radius of " ${maximum} "is reached.`)
+        radius = 10;
+        r.value = 10;
+    }
+    let half = num/2;
+    let chunk = (length - (half*dia)) / ((num/2) + 1);
+    let oldCoord = chunk + radius;
+    while(half != 0) {
+        if(oldCoord + radius + chunk > length) return;
+        shape.holes.push(createHole(oldCoord, breadth/4, radius));
+        let next = (dia + chunk);
+        oldCoord += next;
+        half--;
+    }
+    half = num/2;
+    chunk = (length - (half*dia)) / ((num/2) + 1);
+    oldCoord = chunk + radius;
+    while(half != 0) {
+        if(oldCoord + radius + chunk > length) return;
+        shape.holes.push(createHole(oldCoord, (3*breadth)/4, radius));
+        let next = (dia + chunk);
+        oldCoord += next;
+        half--;
+    }
+    // shape.holes.push(createHole(3*length/4, breadth/4, radius));
+    // shape.holes.push(createHole(length/4, 3*breadth/4, radius));
+    // shape.holes.push(createHole(3*length/4, 3*breadth/4, radius));
    
     const geometry = new THREE.ExtrudeGeometry(shape, {
         depth: depth,
@@ -86,7 +106,7 @@ function shapeUpdate() {
     });
     cuboid.geometry = geometry;
     cuboid.material = material;
-    camera.position.set(0, breadth, depth*3);
+    camera.position.set(0, 0, 2*depth);
 }
 
 shapeUpdate();
@@ -114,6 +134,7 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.3));
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
+controls.dampingFactor = 0.05
 
 
 function animate() {
