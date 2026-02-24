@@ -1,98 +1,69 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Three.js App</title>
-    <!-- <link rel="stylesheet" href="index.css"> -->
-    <link rel="stylesheet" href="first.css">
-  </head>
-  <body>
-      <!-- <div id="profile-card">
-        <img src="assets/image.png" alt="Aditya Mohaty" id="profile-img" />
-        <div id="profile-info">
-          <h2>Aditya Mohaty</h2>
-          <p>Role - Software Engineer-Configurator Design</p>
-        </div>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="profile-card">
+    <img src="assets/image.png" alt="Aditya Mohaty" class="profile-img" />
+    <div class="profile-info">
+      <h1>Aditya Mohaty</h1>
+      <p>Software Engineer – Configurator Design</p>
+    </div>
+  </header>
+
+  <!-- Projects Section -->
+  <main class="projects-container">
+
+    <!-- Project 1 -->
+    <div class="project-card">
+      <img src="assets/project1.png" alt="Project 1 Preview" class="project-img" />
+      <div class="project-content">
+        <h2>Project 1</h2>
+        <p>
+          Interactive Three.js scene with multiple geometries, keyboard controls,
+          lighting system and camera switching.
+        </p>
+        <button onclick="location.href='Project1/project1.html'">
+          View Project
+        </button>
       </div>
-      <div id="top-section">
-        <div id="first">! INFO !</div>
-        <div>Press 1 for BoxGeometry</div>
-        <div>Press 2 for CapsuleGeometry</div>
-        <div>Press 3 for ConeGeometry</div>
-        <div>Press 4 for CylinderGeometry</div>
-        <div>Press 5 for EdgeGeometry</div>
-        <div>Press 6 for ShapeGeometry</div>
-        <div>Press 7 for TorusGeometry</div>
-        <div>Press 8 for TubeGeometry</div>
-        <div>Press 9 for BufferGeometry</div>
-        <div>P for Perspective</div>
-        <div>O for Orthographic</div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card">
+      <img src="assets/project2.png" alt="Project 2 Preview" class="project-img" />
+      <div class="project-content">
+        <h2>Project 2</h2>
+        <p>
+          Parametric 3D configurable cuboid with dynamic hole generation,
+          real-time geometry updates and orbit controls.
+        </p>
+        <button onclick="location.href='Project2/project2.html'">
+          View Project
+        </button>
       </div>
-      <div id="control-panel">
-        <div class="control-group">
-          <label>Geometry</label>
-          <select id="geometry-select">
-            <option value="box">Box</option>
-            <option value="sphere">Sphere</option>
-            <option value="cone">Cone</option>
-            <option value="cylinder">Cylinder</option>
-            <option value="torus">Torus</option>
-            <option value="capsule">Capsule</option>
-          </select>
-        </div>
-        <div class="control-group">
-          <label>Material</label>
-          <select id="material-select">
-            <option value="standard">Standard</option>
-            <option value="phong">Phong</option>
-            <option value="basic">Basic</option>
-            <option value="normal">Normal</option>
-            <option value="lambert">Lambert</option>
-          </select>
-        </div>
-        <div class="control-group">
-          <label>Curve</label>
-          <select id="curvature-select">
-            <option value="arcCurve">ArcCurve</option>
-            <option value="catmullRomCurve3">CatmullRomCurve3</option>
-            <option value="cubicBezierCurve">Cubic Bezier Curve</option>
-            <option value="ellipseCurve">Ellipse Curve</option>
-            <option value="splineCurve">Spline Curve</option>
-          </select>
-        </div>
-        <div class="control-group">
-          <label>Lights</label>
-          <select id="light-select">
-            <option value="ambient">Ambient</option>
-            <option value="directional">Directional</option>
-            <option value="point">Point</option>
-            <option value="spot">Spot</option>
-            <option value="all">All Lights</option>
-          </select>
-        </div>
-      </div> -->
-    <!-- <script type="module" src="./test.js"></script> -->
-    <body>
-      <div>
-          <label for="length">Length</label>
-          <p class="len"></p>
-          <input id="length" type="range" min="100" max="500" value="100">
+    </div>
 
-          <label for="breadth">Breadth</label>
-          <p class="bread"></p>
-          <input id="breadth" type="range" min="100" max="500" value="100">
-
-          <label for="depth">Depth</label>
-          <p class="dep"></p>
-          <input id="depth" type="range" min="100" max="2000" value="200">
-
-          <label for="radius">Radius</label>
-          <p class="rad"></p>
-          <input id="radius" type="range" min="10" max="500" value="10">
-
-          <label for="noOfHoles">Holes</label>
-          <input id="noOfHoles" type="Number" value="4" step="2">
+    <!-- Project 3 -->
+    <div class="project-card">
+      <img src="assets/project3.png" alt="Project 3 Preview" class="project-img" />
+      <div class="project-content">
+        <h2>Project 3</h2>
+        <p>
+          Experimental 3D exploration project demonstrating advanced
+          geometry manipulation and animations.
+        </p>
+        <button onclick="location.href='index3.html'">
+          View Project
+        </button>
       </div>
-      <script type="module" src="./first.js"></script>
-    </body>
-  </body>
+    </div>
+  </main>
+
+</body>
 </html>
