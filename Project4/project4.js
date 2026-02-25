@@ -35,10 +35,10 @@ dirLight.position.set(500, 500, 500);
 dirLight.castShadow = true;
 scene.add(dirLight);
 
-let dia = 40;
-let th1 = 85 * Math.PI/180;
+let dia = 200;
+let th1 = 45 * Math.PI/180;
 let th2 = 45 * Math.PI/180;
-let depth = 1000;
+let depth = 500;
 validateInputs();
 function validateInputs() {
   if (dia <= 0 || depth <= 0) {

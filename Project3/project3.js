@@ -30,7 +30,7 @@ scene.add(new THREE.AxesHelper(500));
 const length = 500;
 const height = 200;
 const depth  = 500;
-let th1 = 30 * Math.PI/180;
+let th1 = 60 * Math.PI/180;
 let th2 = 45 * Math.PI/180;
 
 const hx = length / 2;  
