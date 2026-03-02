@@ -13,7 +13,7 @@ export const materials = {
   }),
 
   basic: new THREE.MeshBasicMaterial({
-    color: "#49ef4",
+    color: "#049ef4",
     side: THREE.DoubleSide
   }),
 
