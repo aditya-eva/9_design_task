@@ -1,17 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parent Child Relationship</title>
-    <style>
-        *{
-            margin: 0px;
-            padding: 0px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="index.css">
+<title>Parent Child Relationship</title>
 </head>
+
 <body>
-    <script type="module" src="index.js"></script>
+
+<div id="uiPanel">
+
+<h2>Geometry Controls</h2>
+
+<label>Main Height
+<input id="h" type="number" value="450">
+</label>
+
+<label>Big Hole Diameter
+<input id="bigHole" type="number" value="40">
+</label>
+
+<label>Small Hole Diameter
+<input id="smallHole" type="number" value="20">
+</label>
+
+<label>Main Plate Depth
+<input id="plateDepth" type="number" value="80">
+</label>
+
+<label>Top Plate Depth
+<input id="topDepth" type="number" value="20">
+</label>
+
+<label>Bottom Plate Depth
+<input id="bottomDepth" type="number" value="20">
+</label>
+
+<button id="updateBtn">Update Geometry</button>
+
+</div>
+
+<div id="canvasContainer"></div>
+
+<script type="module" src="index.js"></script>
+
 </body>
 </html>
