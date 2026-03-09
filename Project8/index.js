@@ -3,6 +3,7 @@ import { createWindow } from "./createWindow";
 import { createYourNameSection } from "./createYourNameSection";
 import { createRightDirection } from "./shapes/createRightDirection";
 import { groupShapes } from "./groupShapes";
+import { addDashes } from "./addDashes";
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color("white");
@@ -23,7 +24,7 @@ const W = window.innerWidth;
 const H = window.innerHeight;
 
 const geometry = new THREE.PlaneGeometry(W, H);
-const material = new THREE.MeshStandardMaterial({
+const material = new THREE.MeshBasicMaterial({
   color: "white",
   side: THREE.DoubleSide
 });
@@ -38,17 +39,14 @@ const beadHeight = 4;
 createWindow(width, height, outerH1, beadHeight, scene);
 const nameSection = createYourNameSection(50, 50);
 const groupedShapes = groupShapes();
-groupedShapes.position.y = -100;
-groupedShapes.position.x = -100;
+
+const dashes = addDashes(width, height);
+scene.add(dashes.dashedLineVertical)
+scene.add(dashes.dashedLineHorizontal)
 scene.add(groupedShapes);
 scene.add(nameSection);
 
-scene.add(new THREE.AxesHelper(100))
-
-const light = new THREE.DirectionalLight(0xffffff, 2);
-light.position.set(5, 10, 5);
-scene.add(light);
-scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+// scene.add(new THREE.AxesHelper(100))
 
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;

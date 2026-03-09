@@ -14,5 +14,7 @@ export function groupShapes() {
     const rightDirection = createRightDirection(20);
     const arr = [hexagon, star, arrow, leftDirection, rightDirection]
     arr.forEach(shape => group.add(shape));
+    group.position.y = -100;
+    group.position.x = -100;
     return group;
 }
