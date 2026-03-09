@@ -32,7 +32,7 @@ scene.add(plane);
 const width = 100;
 const height = 100;
 const outerH1 = 10;
-const beadHeight = 6;
+const beadHeight = 4;
 createWindow(width, height, outerH1, beadHeight, scene);
 
 scene.add(new THREE.AxesHelper(100))
