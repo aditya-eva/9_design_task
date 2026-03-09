@@ -27,6 +27,7 @@ const curvesMap =  curves;
 const geometrySelect = document.getElementById("geometry-select");
 const materialSelect = document.getElementById("material-select");
 const curvatureSelect = document.getElementById("curvature-select");
+const floorTextureSelect = document.getElementById("floor-texture-select");
 
 let currentCurve = null;
 function updateGeometry(type) {
@@ -56,6 +57,10 @@ function updateCurves(type) {
   sphere.visible = true;
 }
 
+function updateMaterialTexture(type) {
+  
+}
+
 if (geometrySelect) {
   geometrySelect.addEventListener("change", (e) => {
     updateGeometry(e.target.value);
@@ -74,13 +79,38 @@ if(curvatureSelect) {
   });
 }
 
+if(floorTextureSelect) {
+  floorTextureSelect.addEventListener("change", (e) => {
+    updateMaterialTexture(e.target.value);
+  })
+}
+
 let camera = getCamera();
 window.addEventListener("keydown", (e) => {
     camera = switchCamera(e.key, camera);
     controls.object = camera;
 });
 
+const loader = new THREE.TextureLoader(); 
+const texture = loader.load("Project1/textures/grass/2K/Poliigon_GrassPatchyGround_4585_BaseColor.jpg");
+const normal = loader.load("Project1/textures/grass/2K/Poliigon_GrassPatchyGround_4585_Normal.png");
+const roughness = loader.load("Project1/textures/grass/2K/Poliigon_GrassPatchyGround_4585_Roughness.jpg");
+
+
 const floor = createFloor();
+
+window.addEventListener('keydown', (e) => {
+  if(e.key.toLowerCase() === "f") {
+    if(floor.material) {
+      floor.material = new THREE.MeshStandardMaterial({
+        map: texture,
+        normalMap: normal,
+        roughnessMap: roughness
+      });
+    }
+  }
+})
+
 scene.add(floor);
 scene.add(mesh);
 
@@ -122,10 +152,7 @@ window.addEventListener('resize', () => {
 let clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
-
   const elapsedTime = clock.getElapsedTime();
-
-  // mesh.position.y = Math.sin(elapsedTime) * 0.5;
   mesh.rotation.x += 0.01;
   mesh.rotation.y += 0.01;
   if(currentCurve) {
