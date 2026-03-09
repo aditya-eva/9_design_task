@@ -1,7 +1,8 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { createWindow } from "./createWindow";
 import { createYourNameSection } from "./createYourNameSection";
+import { createRightDirection } from "./shapes/createRightDirection";
+import { groupShapes } from "./groupShapes";
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color("white");
@@ -35,8 +36,11 @@ const height = 100;
 const outerH1 = 10;
 const beadHeight = 4;
 createWindow(width, height, outerH1, beadHeight, scene);
-const nameSection = createYourNameSection(50, 50, scene);
-console.log(nameSection)
+const nameSection = createYourNameSection(50, 50);
+const groupedShapes = groupShapes();
+groupedShapes.position.y = -100;
+groupedShapes.position.x = -100;
+scene.add(groupedShapes);
 scene.add(nameSection);
 
 scene.add(new THREE.AxesHelper(100))
