@@ -1,5 +1,6 @@
 import * as THREE from "three"
 import { createLine } from "./createLine"
+import { FontLoader } from "three/examples/jsm/Addons.js";
 
 
 export function groupAllFields(width, height) {
@@ -17,10 +18,7 @@ export function groupAllFields(width, height) {
     path2.lineTo(width/2, 5*height/10);
     const geometry2 = new THREE.BufferGeometry().setFromPoints(path2.getPoints());
     const line2 = new THREE.Line(geometry2, material);
-    group.position.x = width;
-    group.position.y = -(height/2);
     group.add(line2)
-
 
     // Signature
     const signatureLine = createLine(0, height/10, width/2, height/10);
@@ -77,5 +75,12 @@ export function groupAllFields(width, height) {
     // developer Name Line
     const developerNameLine = createLine(3*width/4, 3*height/10, width, 3*height/10)
     group.add(developerNameLine)
-    return group;
+    
+    group.position.x = width;
+    group.position.y = -(height/2);
+    const result = {
+            group: group,
+            editableMeshes: []
+        };
+    return result;
 }

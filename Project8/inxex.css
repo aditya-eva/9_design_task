@@ -1,11 +1,8 @@
-#css3d {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
+input{
+    position:absolute;
+    border:none;
+    outline:none;
+    background:transparent;
+    text-align:center;
+    font-size:14px;
 }

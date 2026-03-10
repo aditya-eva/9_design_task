@@ -1,10 +1,8 @@
 import * as THREE from "three";
 import { FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
-import { createText } from "./helper";
 
 export function createYourNameSection(posWid, posHei, width, height) {
     const group = new THREE.Group();
-
 
     const path = new THREE.Path();
     path.moveTo(0, 0);
@@ -22,7 +20,6 @@ export function createYourNameSection(posWid, posHei, width, height) {
     const points = path.getPoints();
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const material = new THREE.LineBasicMaterial({ color: "black" });
-
 
     const border = new THREE.Line(geometry, material);
     group.add(border);
@@ -55,18 +52,11 @@ export function createYourNameSection(posWid, posHei, width, height) {
     const columnGeo3 = new THREE.BufferGeometry().setFromPoints(colPoint3);
     const colLine3 = new THREE.Line(columnGeo3, material);
     group.add(colLine3);
-    group.position.set(-1.8*posWid, posHei/2, 0);
+    group.position.set(-2*posWid, posHei/2, 0);
 
     const result = {
         group: group,
         editableMeshes: []
     };
-    const loader = new FontLoader();
-    loader.load("./fonts/helvetiker_regular.typeface.json", (font) => {
-        createText("Aditya Mohaty", width * 0.5, 3 * height / 8, font, result);
-        createText("EvA/241", width * 0.5, height / 8, font, result);
-        createText("Software Engineer", width * 0.5, -height / 8, font, result);
-    });
-    
     return result;
 }
