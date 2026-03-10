@@ -16,5 +16,6 @@ export function createHexagonShape(side) {
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const material = new THREE.LineBasicMaterial({ color: "black" });
     const line = new THREE.Line(geometry, material);
+    line.position.y = 1;
     return line;
 }

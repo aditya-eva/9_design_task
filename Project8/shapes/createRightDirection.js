@@ -14,5 +14,6 @@ export function createRightDirection(size) {
 
     const material = new THREE.LineBasicMaterial({ color: "black" });
     const line = new THREE.LineLoop(geometry, material);
+    line.position.y = size;
     return line;
 }

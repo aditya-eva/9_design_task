@@ -24,5 +24,6 @@ export function createStarShape(side) {
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const material = new THREE.LineBasicMaterial({ color: "black" });
     const line = new THREE.Line(geometry, material);
+    line.position.y = side/2;
     return line;
 }
