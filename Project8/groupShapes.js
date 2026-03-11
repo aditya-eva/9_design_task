@@ -42,10 +42,10 @@ export function groupShapes(width, height) {
 
 
     const arr = [hexagon, star, arrow, leftDirection, rightDirection];
-    const spacing = height/2.5;
+    const spacing = 2*width/5;
 
     arr.forEach((shape, index) => {
-        shape.position.x = height/5 + index * spacing;
+        shape.position.x = width/5 + index * spacing;
         group.add(shape);
     });
 
@@ -53,19 +53,19 @@ export function groupShapes(width, height) {
     group.position.x = -1.8*width;
 
 
-    const line1 = createLine(2*height/5, 0, 2*height/5, 1.25*width/5)
+    const line1 = createLine(2*width/5, 0, 2*width/5, 1.25*height/5)
     group.add(line1);
 
 
-    const line2 = createLine(4*height/5, 0, 4*height/5, 1.25*width/5)
+    const line2 = createLine(4*width/5, 0, 4*width/5, 1.25*height/5)
     group.add(line2);
 
 
-    const line3 = createLine(6*height/5, 0, 6*height/5, 1.25*width/5)
+    const line3 = createLine(6*width/5, 0, 6*width/5, 1.25*height/5)
     group.add(line3);
 
 
-    const line4 = createLine(8*height/5, 0, 8*height/5, 1.25*width/5)
+    const line4 = createLine(8*width/5, 0, 8*width/5, 1.25*height/5)
     group.add(line4);
 
 

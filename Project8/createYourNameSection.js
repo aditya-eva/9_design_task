@@ -4,16 +4,18 @@ import { FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
 export function createYourNameSection(posWid, posHei, width, height) {
     const group = new THREE.Group();
 
+    const rx = width / 4;   
+    const ry = height / 4;  
     const path = new THREE.Path();
     path.moveTo(0, 0);
-    path.lineTo(0, height/4);
-    path.absarc(width/4, height/4, height/4, Math.PI, Math.PI/2, true);
+    path.lineTo(0, ry);
+    path.absellipse(rx, ry, rx, ry, Math.PI, Math.PI/2, true);
     path.lineTo(3*width/4, height/2);
-    path.absarc(3*width/4, height/4, height/4, Math.PI/2, 0, true);
-    path.lineTo(width, -height/4);
-    path.absarc(3*width/4, -height/4, height/4, 0, 3*Math.PI/2, true);
+    path.absellipse(3*width/4, ry, rx, ry, Math.PI/2, 0, true);
+    path.lineTo(width, -ry);
+    path.absellipse(3*width/4, -ry, rx, ry, 0, 3*Math.PI/2, true);
     path.lineTo(width/4, -height/2);
-    path.absarc(width/4, -height/4, height/4, 3*Math.PI/2, Math.PI, true);
+    path.absellipse(rx, -ry, rx, ry, 3*Math.PI/2, Math.PI, true);
     path.lineTo(0, 0);
 
 

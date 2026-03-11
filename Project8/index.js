@@ -24,8 +24,8 @@ const camera = new THREE.PerspectiveCamera(
   10000
 );
 
-const width = 100;
-const height = 100;
+const width = 200;
+const height = 200;
 const outerH1 = 6;
 const beadHeight = 2;
 
@@ -100,17 +100,17 @@ const loader = new FontLoader();
 loader.load("./fonts/helvetiker_regular.typeface.json", (font)=>{
 
     const dimension = createDimension(
-        -50,      
-        50,    
-        -60,     
+        -width/2,      
+        width/2,    
+        -(height/2 + height/10),     
         `${width}`,  
         font,
         true
     );
     const dimension2 = createDimension(
-        -50,      
-        50,    
-        60,     
+        -height/2,      
+        height/2,    
+        (width/2 + width/10),     
         `${height}`,  
         font,
         false
