@@ -97,7 +97,7 @@ window.addEventListener("resize", () => {
 
 const loader = new FontLoader();
 
-loader.load("./fonts/helvetiker_regular.typeface.json", (font)=>{
+loader.load("/fonts/helvetiker_regular.typeface.json", (font)=>{
 
     const dimension = createDimension(
         -width/2,      
