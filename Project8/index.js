@@ -6,6 +6,7 @@ import { addDashes } from "./addDashes";
 import { groupAllFields } from "./sideBar/groupAllFields";
 import { FontLoader, OrbitControls, TextGeometry } from "three/examples/jsm/Addons.js";
 import { positionFieldInputs, positionProfileInputs } from "./helper";
+import { createDimension } from "./dimensions/createDimension";
 
 const date = document.getElementById("date");
 const currDate = new Date();
@@ -27,7 +28,6 @@ const width = 100;
 const height = 100;
 const outerH1 = 6;
 const beadHeight = 2;
-const loader = new FontLoader();
 
 camera.position.z = Math.max(2 * width, 2 * height);
 
@@ -40,8 +40,9 @@ const controls = new OrbitControls(camera, renderer.domElement);
 const geometry = new THREE.PlaneGeometry(4 * width, 2 * height);
 const material = new THREE.MeshBasicMaterial({
   color: "white",
-  side: THREE.DoubleSide
+  side: THREE.DoubleSide,
 });
+// console.log(geometry.attributes.position.array)
 
 const size = 10000;
 const divisions = 2000;
@@ -51,16 +52,23 @@ gridHelper.rotateX(Math.PI / 2);
 gridHelper.position.z = -1;
 // scene.add(gridHelper);
 
-const edge = new THREE.EdgesGeometry(geometry, 60);
 const LineMat = new THREE.LineBasicMaterial({ color: "black" })
-const lineSegments = new THREE.Line(edge, LineMat);
-// drawingBoard.add(lineSegments);
+const points = [
+  new THREE.Vector3(-2*width, -height, 0),
+  new THREE.Vector3( 2*width, -height, 0),
+  new THREE.Vector3( 2*width,  height, 0),
+  new THREE.Vector3(-2*width,  height, 0),
+  new THREE.Vector3(-2*width, -height, 0),
+];
+
+const geo = new THREE.BufferGeometry().setFromPoints(points);
+const rect = new THREE.Line(geo, LineMat);
+
+drawingBoard.add(rect);
 
 const plane = new THREE.Mesh(geometry, material);
 drawingBoard.add(plane);
 
-const windH = 100;
-const windW = 300;
 const windowParts = createWindow(width, height, outerH1, beadHeight, scene);
 
 const nameSection = createYourNameSection(width, height, 3 * width / 4, 3 * height / 4);
@@ -87,6 +95,31 @@ window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+const loader = new FontLoader();
+
+loader.load("./fonts/helvetiker_regular.typeface.json", (font)=>{
+
+    const dimension = createDimension(
+        -50,      
+        50,    
+        -60,     
+        `${width}`,  
+        font,
+        true
+    );
+    const dimension2 = createDimension(
+        -50,      
+        50,    
+        60,     
+        `${height}`,  
+        font,
+        false
+    );
+
+    scene.add(dimension);
+    scene.add(dimension2);
+
+});
 
 function animate() {
   requestAnimationFrame(animate);

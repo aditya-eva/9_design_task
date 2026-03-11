@@ -11,8 +11,8 @@ export function groupShapes(width, height) {
 
 
     const group = new THREE.Group();
-    const boxWidth = 220;
-    const boxHeight = 42;
+    const boxWidth = 2*width;
+    const boxHeight = height/4;
 
 
     const path = new THREE.Path();
@@ -34,38 +34,38 @@ export function groupShapes(width, height) {
 
 
     group.add(border);
-    const hexagon = createHexagonShape(20);
-    const star = createStarShape(10);
-    const arrow = createArrow(20);
-    const leftDirection = createLeftDirection(20);
-    const rightDirection = createRightDirection(20);
+    const hexagon = createHexagonShape(height/10);
+    const star = createStarShape(height/20);
+    const arrow = createArrow(height/10);
+    const leftDirection = createLeftDirection(height/10);
+    const rightDirection = createRightDirection(height/10);
 
 
     const arr = [hexagon, star, arrow, leftDirection, rightDirection];
-    const spacing = 40;
-
+    const spacing = height/2.5;
 
     arr.forEach((shape, index) => {
-        shape.position.x = 30 + index * spacing;
+        shape.position.x = height/5 + index * spacing;
         group.add(shape);
     });
+
     group.position.y = -height;
     group.position.x = -1.8*width;
 
 
-    const line1 = createLine(51, 0, 51, 42)
+    const line1 = createLine(2*height/5, 0, 2*height/5, 1.25*width/5)
     group.add(line1);
 
 
-    const line2 = createLine(91, 0, 91, 42)
+    const line2 = createLine(4*height/5, 0, 4*height/5, 1.25*width/5)
     group.add(line2);
 
 
-    const line3 = createLine(125, 0, 125, 42)
+    const line3 = createLine(6*height/5, 0, 6*height/5, 1.25*width/5)
     group.add(line3);
 
 
-    const line4 = createLine(170, 0, 170, 42)
+    const line4 = createLine(8*height/5, 0, 8*height/5, 1.25*width/5)
     group.add(line4);
 
 
