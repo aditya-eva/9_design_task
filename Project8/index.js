@@ -3,8 +3,8 @@ import { createWindow } from "./createWindow";
 import { createYourNameSection } from "./createYourNameSection";
 import { groupShapes } from "./groupShapes";
 import { addDashes } from "./addDashes";
-import { groupAllFields } from "./sideBar/groupAllFields";
-import { FontLoader, OrbitControls, TextGeometry } from "three/examples/jsm/Addons.js";
+import { groupAllFields } from "./sidebar/groupAllFields";
+import { FontLoader, OrbitControls } from "three/examples/jsm/Addons.js";
 import { positionFieldInputs, positionProfileInputs } from "./helper";
 import { createDimension } from "./dimensions/createDimension";
 
