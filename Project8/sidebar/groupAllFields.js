@@ -1,7 +1,5 @@
 import * as THREE from "three"
-import { createLine } from "./createLine"
-import { FontLoader } from "three/examples/jsm/Addons.js";
-
+import { createLine } from "./createLine";
 
 export function groupAllFields(width, height) {
     const group = new THREE.Group();

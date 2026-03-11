@@ -4,7 +4,7 @@ import { createStarShape } from "./shapes/createStarShape";
 import { createArrow } from "./shapes/createArrow";
 import { createLeftDirection } from "./shapes/createLeftDirection";
 import { createRightDirection } from "./shapes/createRightDirection";
-import { createLine } from "./sideBar/createLine";
+import { createLine } from "./sidebar/createLine";
 
 
 export function groupShapes(width, height) {
