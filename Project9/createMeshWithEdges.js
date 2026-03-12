@@ -12,7 +12,7 @@ export function createMeshWithEdges(geo, material, type, index) {
   let metalnessMap;
 
   // if(type === "outer") {
-    basePath = "./chips/GroundWoodChips001_";
+    basePath = "chips/GroundWoodChips001_";
     colorMap = loader.load(basePath + "COL_2K.jpg");
     normalMap = loader.load(basePath + "NRM_2K.jpg");
     roughnessMap = loader.load(basePath + "REFL_2K.jpg");
