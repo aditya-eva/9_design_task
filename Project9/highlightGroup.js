@@ -15,7 +15,7 @@ export function highLightGroup(type, selectedMesh, drawingBoard, outerGroup, bea
     })
   });
 
-  // this condition highlights the selected mesh into a light color
+  // this condition highlights the selected mesh into a light
   if (type === "outer") {
     selectedMesh.material = outerSelected;
   }

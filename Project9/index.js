@@ -5,11 +5,12 @@ import { ExtrudePath } from "./ExtrudePath";
 import { createFramePolygon } from "./framePolygon/createFramePolygon";
 import { createBeadPolygon } from "./beadPolygon/createBeadPolygon";
 import { highLightGroup } from "./highlightGroup";
+import { createGlassForWindow } from "./createGlass";
 
 
 // Scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color("black");
+scene.background = new THREE.Color("#e6e3e3");
 
 
 // Camera
@@ -30,10 +31,11 @@ document.body.appendChild(renderer.domElement);
 
 // Controls
 const controls = new OrbitControls(camera, renderer.domElement);
-
+controls.enableDamping = true;
+controls.dampingFactor = 0.05
 
 // Helpers
-scene.add(new THREE.AxesHelper(200));
+// scene.add(new THREE.AxesHelper(200));
 
 
 const drawingBoard = new THREE.Group();
@@ -55,8 +57,8 @@ const beadHeight = 20;
 const beadWidth = 12;
 
 
-const length = 300;
-const breadth = 200;
+const length = 500;
+const breadth = 600;
 
 
 // Material
@@ -86,7 +88,7 @@ let outerShapesArray = [outerProfileShape, outerProfileShape, outerProfileShape,
 // outer Polygon
 const outerFramePolygon = createFramePolygon(rectangularPath, outerShapesArray, material, length, breadth);
 // add outer to the board
-outerFramePolygon.position.z += 0              
+outerFramePolygon.position.z += 0             
 drawingBoard.add(outerFramePolygon)
 
 
@@ -103,7 +105,17 @@ let beadShapeArray = [beadProfileShape, beadProfileShape, beadProfileShape, bead
 const beadPolygon = createBeadPolygon(rectangularPath, outerFramePolygon, beadShapeArray, material, outerH1, beadHeight, length, breadth);
 beadPolygon.position.z = outerFramePolygon.position.z
 // add bead to the board
+drawingBoard.position.x = - length/2
+drawingBoard.position.y = - breadth/2
 drawingBoard.add(beadPolygon);
+
+
+const glass = createGlassForWindow(length-2*outerH1-2*beadHeight, breadth-2*outerH1-2*beadHeight)
+glass.position.x = length/2
+glass.position.y = breadth/2
+glass.position.z = beadPolygon.position.z - beadHeight
+drawingBoard.add(glass)
+
 
 // outerSelected is the material for selected outer mesh (light) and outerGroup is the material for rest all outer meshes (dark)
 const outerSelected = new THREE.MeshStandardMaterial({ color: "skyblue" });
@@ -112,7 +124,6 @@ const outerGroup = new THREE.MeshStandardMaterial({ color: "blue" });
 // beadSelected is the material for selected bead mesh (light) and beadGroup is the material for rest all bead meshes (dark)
 const beadSelected = new THREE.MeshStandardMaterial({ color: "skyblue" });
 const beadGroup = new THREE.MeshStandardMaterial({ color: "blue" });
-
 
 // raycaster part 
 const raycaster = new THREE.Raycaster();
@@ -143,9 +154,14 @@ window.addEventListener('dblclick', (event) => {
 scene.add(drawingBoard);
 
 
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
 // Lighting
 scene.add(new THREE.AmbientLight("white", 3));
+const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
 
+directionalLight.position.set(150, 150, 150); 
+scene.add(directionalLight);
 
 // Animate
 function animate() {
