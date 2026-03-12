@@ -19,8 +19,6 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   10000
 );
-
-
 camera.position.z = 500;
 
 

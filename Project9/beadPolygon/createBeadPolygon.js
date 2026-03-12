@@ -1,6 +1,7 @@
 import * as THREE from "three"
 import { adjustBeadVertices } from "./adjustBeadVertices"
 import { beadOffset } from "./beadOffset"
+import { createMeshWithEdges } from "../createMeshWithEdges";
 
 export function createBeadPolygon(rectangularPath, beadProfileShape, material, outerH1, beadHeight, length, breadth) {
     
@@ -23,16 +24,9 @@ export function createBeadPolygon(rectangularPath, beadProfileShape, material, o
       geo.attributes.position.needsUpdate = true;
       geo.computeVertexNormals();
     
-      const edgeGeo = new THREE.EdgesGeometry(geo, 45);
-      const edgeMaterial = new THREE.LineBasicMaterial({ color: "red" });
-      const lineSeg = new THREE.LineSegments(edgeGeo, edgeMaterial);
-      const mesh = new THREE.Mesh(geo, material);
-
+      const mesh = createMeshWithEdges(geo, material, "bead", index);
       beadOffset(mesh, index, outerH1);
-      
-      mesh.add(lineSeg);
-      mesh.userData.type = "bead";
-      mesh.userData.id = index;
+
       group.add(mesh);
     })
     return group;

@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { transformFrameVertex } from "./transformFrameVertices";
+import { createMeshWithEdges } from "../createMeshWithEdges";
 
 export function createFramePolygon(rectangularPath, outerProfileShape, material, length, breadth) {
       const outerEdges = rectangularPath.getRectangleEdges(0, 0);
@@ -29,15 +30,7 @@ export function createFramePolygon(rectangularPath, outerProfileShape, material,
       geo.computeVertexNormals();
 
       // Edges
-      const edgeGeo = new THREE.EdgesGeometry(geo, 45);
-      const edgeMaterial = new THREE.LineBasicMaterial({ color: "red" });
-      const lineSeg = new THREE.LineSegments(edgeGeo, edgeMaterial);
-    
-    
-      const mesh = new THREE.Mesh(geo, material);
-      mesh.add(lineSeg);
-      mesh.userData.type = "outer";
-      mesh.userData.id = index;
+      const mesh = createMeshWithEdges(geo, material, "outer", index);
       group.add(mesh);
       return mesh;
     });
