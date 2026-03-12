@@ -3,7 +3,7 @@ import { adjustBeadVertices } from "./adjustBeadVertices"
 import { beadOffset } from "./beadOffset"
 import { createMeshWithEdges } from "../createMeshWithEdges";
 
-export function createBeadPolygon(rectangularPath, outerFramePolygon, beadProfileShape, material, outerH1, beadHeight, length, breadth) {
+export function createBeadPolygon(rectangularPath, outerFramePolygon, shapesArray, material, outerH1, beadHeight, length, breadth) {
     
     // Bead Edges
     const beadEdges = rectangularPath.getRectangleEdges(0, 0);
@@ -11,7 +11,11 @@ export function createBeadPolygon(rectangularPath, outerFramePolygon, beadProfil
     
     // loop each edge and extrude them in that path
     beadEdges.forEach((edge, index) => {
-      const eachSideBeadGeometry = new THREE.ExtrudeGeometry(beadProfileShape.createBeadShape(0,0),
+      const type = shapesArray[index].type;
+      let shape;
+      if(type === "outer") shape = shapesArray[index].createFrameOuterShape(0, 0);
+      if(type === "bead") shape = shapesArray[index].createBeadShape(0, 0);
+      const eachSideBeadGeometry = new THREE.ExtrudeGeometry(shape,
         {
           extrudePath: edge,
           bevelEnabled: false

@@ -2,14 +2,18 @@ import * as THREE from "three";
 import { transformFrameVertex } from "./transformFrameVertices";
 import { createMeshWithEdges } from "../createMeshWithEdges";
 
-export function createFramePolygon(rectangularPath, outerProfileShape, material, length, breadth) {
+export function createFramePolygon(rectangularPath, shapesArray, material, length, breadth) {
       const outerEdges = rectangularPath.getRectangleEdges(0, 0);
       const frameGroup = new THREE.Group();
       
       // loop each edge and extrude them in that path
       outerEdges.forEach((edge, index) => {
+        const type = shapesArray[index].type;
+        let shape;
+        if(type === "outer") shape = shapesArray[index].createFrameOuterShape(0, 0);
+        if(type === "bead") shape = shapesArray[index].createBeadShape(0, 0);
         const eachSideFrameGeometry = new THREE.ExtrudeGeometry(
-        outerProfileShape.createFrameOuterShape(0, 0),
+        shape,
         {
           extrudePath: edge,
           bevelEnabled: false
@@ -21,7 +25,13 @@ export function createFramePolygon(rectangularPath, outerProfileShape, material,
       for (let i = 0; i < framePostionArray.length; i += 3) {
         const x = framePostionArray[i];
         const y = framePostionArray[i + 1];
-        const [nx, ny] = transformFrameVertex(x, y, index, length, breadth);
+        const [nx, ny] = transformFrameVertex(
+          x,
+          y,
+          index,
+          length,
+          breadth
+        );
         framePostionArray[i] = nx;
         framePostionArray[i + 1] = ny;
       }

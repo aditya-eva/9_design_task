@@ -75,13 +75,16 @@ const rectangularPath = new ExtrudePath({ length, breadth });
 
 // outer Profile edges 
 const outerProfileShape = new BasicShapes({
+  type: "outer",
   outerHeight,
   outerWidth,
   outerH1
 });
 
+let outerShapesArray = [outerProfileShape, outerProfileShape, outerProfileShape, outerProfileShape];
+
 // outer Polygon
-const outerFramePolygon = createFramePolygon(rectangularPath, outerProfileShape, material, length, breadth);
+const outerFramePolygon = createFramePolygon(rectangularPath, outerShapesArray, material, length, breadth);
 // add outer to the board
 outerFramePolygon.position.z += 0              
 drawingBoard.add(outerFramePolygon)
@@ -89,11 +92,15 @@ drawingBoard.add(outerFramePolygon)
 
 // Bead Edges
 const beadProfileShape = new BasicShapes({
+  type: "bead",
   beadHeight,
   beadWidth
 });
+
+let beadShapeArray = [beadProfileShape, beadProfileShape, beadProfileShape, beadProfileShape];
+
 // bead polygon
-const beadPolygon = createBeadPolygon(rectangularPath, outerFramePolygon, beadProfileShape, material, outerH1, beadHeight, length, breadth);
+const beadPolygon = createBeadPolygon(rectangularPath, outerFramePolygon, beadShapeArray, material, outerH1, beadHeight, length, breadth);
 beadPolygon.position.z = outerFramePolygon.position.z
 // add bead to the board
 drawingBoard.add(beadPolygon);

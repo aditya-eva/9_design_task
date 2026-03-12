@@ -9,12 +9,14 @@ export class BasicShapes {
     static beadRadius = 10;
     static beadThickness = 2;
     constructor({
+        type,
         outerHeight,
         outerWidth,
         outerH1,
         beadHeight,
         beadWidth
     }) {
+        this.type = type
         this.outerHeight = outerHeight;
         this.outerWidth = outerWidth;
         this.outerH1 = outerH1;
@@ -23,7 +25,7 @@ export class BasicShapes {
         this.beadWidth = beadWidth;
     }
     createFrameOuterShape(x, y) {
-        const shape = new Shape();;
+        const shape = new Shape();
         shape.moveTo(x, y);
         shape.lineTo(x + this.outerWidth, y);
         shape.lineTo(x + this.outerWidth, y + this.outerHeight);
@@ -34,7 +36,7 @@ export class BasicShapes {
         return shape;
     }
     createBeadShape(x, y) {
-        const shape = new Shape();;
+        const shape = new Shape();
         shape.moveTo(x, y);
         shape.lineTo(x, y + this.beadHeight - BasicShapes.beadRadius);
         shape.absarc(x + BasicShapes.beadRadius, y + this.beadHeight - BasicShapes.beadRadius, BasicShapes.beadRadius, Math.PI, Math.PI/2, true);
