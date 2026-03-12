@@ -1,8 +1,4 @@
 import { Shape } from "three";
-
-
-
-
 export class BasicShapes {
     outerHeight;
     outerWidth;
@@ -37,7 +33,7 @@ export class BasicShapes {
         shape.lineTo(x, y);
         return shape;
     }
-    createBead(x, y) {
+    createBeadShape(x, y) {
         const shape = new Shape();;
         shape.moveTo(x, y);
         shape.lineTo(x, y + this.beadHeight - BasicShapes.beadRadius);

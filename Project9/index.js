@@ -63,6 +63,8 @@ const breadth = 200;
 const material = new THREE.MeshStandardMaterial({
   color: "cyan",
   side: THREE.DoubleSide,
+  metalness: 0.6,
+  roughness: 0.6,
   wireframe: false
 });
 
@@ -94,13 +96,11 @@ const beadPolygon = createBeadPolygon(rectangularPath, beadProfileShape, materia
 // add bead to the board
 drawingBoard.add(beadPolygon);
 
-
-// const outerNormal = new THREE.MeshStandardMaterial({ color: "cyan" });
+// outerSelected is the material for selected outer mesh (light) and outerGroup is the material for rest all outer meshes (dark)
 const outerSelected = new THREE.MeshStandardMaterial({ color: "skyblue" });
 const outerGroup = new THREE.MeshStandardMaterial({ color: "blue" });
 
-
-// const beadNormal = new THREE.MeshStandardMaterial({ color: "cyan" });
+// beadSelected is the material for selected bead mesh (light) and beadGroup is the material for rest all bead meshes (dark)
 const beadSelected = new THREE.MeshStandardMaterial({ color: "skyblue" });
 const beadGroup = new THREE.MeshStandardMaterial({ color: "blue" });
 
@@ -111,29 +111,31 @@ const mouse = new THREE.Vector2();
 
 
 window.addEventListener('dblclick', (event) => {
+  // convert the mouse coordinates to -1 to 1 that is conversion of NDC (screen coords -> Normalized device coords)
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
 
   raycaster.setFromCamera(mouse, camera);
  
-  const intersect = raycaster.intersectObjects(drawingBoard.children);
+  // this method returns an array
+  const intersectWithObjects = raycaster.intersectObjects(drawingBoard.children);
 
-  if(intersect.length === 0) return;
+  if(intersectWithObjects.length === 0) return;
+
+  
+  const clickedObject = intersectWithObjects[0].object;
+  const clickedObjectType = clickedObject.userData.type;
 
 
-  const clicked = intersect[0].object;
-  const type = clicked.userData.type;
-
-
-  highLightGroup(type, clicked, drawingBoard, outerGroup, beadGroup, outerSelected, beadSelected);
+  highLightGroup(clickedObjectType, clickedObject, drawingBoard, outerGroup, beadGroup, outerSelected, beadSelected);
 })
 
 scene.add(drawingBoard);
 
 
 // Lighting
-scene.add(new THREE.AmbientLight("white", 2.5));
+scene.add(new THREE.AmbientLight("white", 3));
 
 
 // Animate

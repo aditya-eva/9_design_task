@@ -4,11 +4,11 @@ import { createMeshWithEdges } from "../createMeshWithEdges";
 
 export function createFramePolygon(rectangularPath, outerProfileShape, material, length, breadth) {
       const outerEdges = rectangularPath.getRectangleEdges(0, 0);
-      const group = new THREE.Group();
+      const frameGroup = new THREE.Group();
       
       // loop each edge and extrude them in that path
       outerEdges.forEach((edge, index) => {
-        const geo = new THREE.ExtrudeGeometry(
+        const eachSideFrameGeometry = new THREE.ExtrudeGeometry(
         outerProfileShape.createFrameOuterShape(0, 0),
         {
           extrudePath: edge,
@@ -16,24 +16,23 @@ export function createFramePolygon(rectangularPath, outerProfileShape, material,
         }
       );
 
-      const arr = geo.attributes.position.array;
+      const framePostionArray = eachSideFrameGeometry.attributes.position.array;
 
-      for (let i = 0; i < arr.length; i += 3) {
-        const x = arr[i];
-        const y = arr[i + 1];
+      for (let i = 0; i < framePostionArray.length; i += 3) {
+        const x = framePostionArray[i];
+        const y = framePostionArray[i + 1];
         const [nx, ny] = transformFrameVertex(x, y, index, length, breadth);
-        arr[i] = nx;
-        arr[i + 1] = ny;
+        framePostionArray[i] = nx;
+        framePostionArray[i + 1] = ny;
       }
 
-      geo.attributes.position.needsUpdate = true;
-      geo.computeVertexNormals();
+      eachSideFrameGeometry.attributes.position.needsUpdate = true;
+      eachSideFrameGeometry.computeVertexNormals();
 
       // Edges
-      const mesh = createMeshWithEdges(geo, material, "outer", index);
-      group.add(mesh);
-      return mesh;
+      const mesh = createMeshWithEdges(eachSideFrameGeometry, material, "outer", index);
+      frameGroup.add(mesh);
     });
 
-    return group;
+    return frameGroup;
 }

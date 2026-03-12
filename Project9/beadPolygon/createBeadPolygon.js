@@ -7,27 +7,31 @@ export function createBeadPolygon(rectangularPath, beadProfileShape, material, o
     
     // Bead Edges
     const beadEdges = rectangularPath.getRectangleEdges(0, 0);
-    const group = new THREE.Group();
+    const beadGroup = new THREE.Group();
     
     // loop each edge and extrude them in that path
     beadEdges.forEach((edge, index) => {
-      const geo = new THREE.ExtrudeGeometry(beadProfileShape.createBead(0,0),
+      const eachSideBeadGeometry = new THREE.ExtrudeGeometry(beadProfileShape.createBeadShape(0,0),
         {
           extrudePath: edge,
           bevelEnabled: false
         }
       );
-      const arr = geo.attributes.position.array;
 
-      adjustBeadVertices(arr, index, outerH1, beadHeight, length, breadth);
+      // this is the position array containing all the indices
+      const positionArray = eachSideBeadGeometry.attributes.position.array;
 
-      geo.attributes.position.needsUpdate = true;
-      geo.computeVertexNormals();
+      // this function loops all the indeices and fixes the position of each vertex
+      adjustBeadVertices(positionArray, index, outerH1, beadHeight, length, breadth);
+
+      eachSideBeadGeometry.attributes.position.needsUpdate = true;
+      eachSideBeadGeometry.computeVertexNormals();
     
-      const mesh = createMeshWithEdges(geo, material, "bead", index);
+      // create the mesh and add edge geometry to it
+      const mesh = createMeshWithEdges(eachSideBeadGeometry, material, "bead", index);
       beadOffset(mesh, index, outerH1);
 
-      group.add(mesh);
+      beadGroup.add(mesh);
     })
-    return group;
+    return beadGroup;
 }

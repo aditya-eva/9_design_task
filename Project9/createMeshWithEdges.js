@@ -3,9 +3,9 @@ import * as THREE from "three";
 export function createMeshWithEdges(geo, material, type, index) {
 
   // Edges
-  const edgeGeo = new THREE.EdgesGeometry(geo, 45);
+  const edgeGeoMetryForMeshes = new THREE.EdgesGeometry(geo, 45);
   const edgeMaterial = new THREE.LineBasicMaterial({ color: "red" });
-  const lineSeg = new THREE.LineSegments(edgeGeo, edgeMaterial);
+  const lineSeg = new THREE.LineSegments(edgeGeoMetryForMeshes, edgeMaterial);
 
   // Mesh
   const mesh = new THREE.Mesh(geo, material);
