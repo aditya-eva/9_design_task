@@ -3,7 +3,7 @@ import { adjustBeadVertices } from "./adjustBeadVertices"
 import { beadOffset } from "./beadOffset"
 import { createMeshWithEdges } from "../createMeshWithEdges";
 
-export function createBeadPolygon(rectangularPath, beadProfileShape, material, outerH1, beadHeight, length, breadth) {
+export function createBeadPolygon(rectangularPath, outerFramePolygon, beadProfileShape, material, outerH1, beadHeight, length, breadth) {
     
     // Bead Edges
     const beadEdges = rectangularPath.getRectangleEdges(0, 0);
@@ -29,7 +29,7 @@ export function createBeadPolygon(rectangularPath, beadProfileShape, material, o
     
       // create the mesh and add edge geometry to it
       const mesh = createMeshWithEdges(eachSideBeadGeometry, material, "bead", index);
-      beadOffset(mesh, index, outerH1);
+      beadOffset(mesh, outerFramePolygon, index, outerH1);
 
       beadGroup.add(mesh);
     })

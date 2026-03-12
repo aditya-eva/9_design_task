@@ -48,9 +48,9 @@ window.addEventListener("resize", () => {
 
 
 // Section Parameters
-const outerHeight = 30;
+const outerHeight = 40;
 const outerWidth = 40;
-const outerH1 = 15;
+const outerH1 = 0.4*outerHeight;
 const beadHeight = 20;
 const beadWidth = 12;
 
@@ -73,7 +73,7 @@ const material = new THREE.MeshStandardMaterial({
 const rectangularPath = new ExtrudePath({ length, breadth });
 
 
-// outer Profile edges
+// outer Profile edges 
 const outerProfileShape = new BasicShapes({
   outerHeight,
   outerWidth,
@@ -83,6 +83,7 @@ const outerProfileShape = new BasicShapes({
 // outer Polygon
 const outerFramePolygon = createFramePolygon(rectangularPath, outerProfileShape, material, length, breadth);
 // add outer to the board
+outerFramePolygon.position.z += 0              
 drawingBoard.add(outerFramePolygon)
 
 
@@ -92,7 +93,8 @@ const beadProfileShape = new BasicShapes({
   beadWidth
 });
 // bead polygon
-const beadPolygon = createBeadPolygon(rectangularPath, beadProfileShape, material, outerH1, beadHeight, length, breadth);
+const beadPolygon = createBeadPolygon(rectangularPath, outerFramePolygon, beadProfileShape, material, outerH1, beadHeight, length, breadth);
+beadPolygon.position.z = outerFramePolygon.position.z
 // add bead to the board
 drawingBoard.add(beadPolygon);
 

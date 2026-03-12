@@ -31,6 +31,9 @@ export function createFramePolygon(rectangularPath, outerProfileShape, material,
 
       // Edges
       const mesh = createMeshWithEdges(eachSideFrameGeometry, material, "outer", index);
+      if(index == 2) {
+        // mesh.position.z += 50
+      }
       frameGroup.add(mesh);
     });
 
