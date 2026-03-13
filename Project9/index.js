@@ -6,6 +6,7 @@ import { createFramePolygon } from "./framePolygon/createFramePolygon";
 import { createBeadPolygon } from "./beadPolygon/createBeadPolygon";
 import { highLightGroup } from "./highlightGroup";
 import { createGlassForWindow } from "./createGlass";
+import { getTexturedMaterial } from "./textures";
 
 
 // Scene
@@ -37,7 +38,6 @@ controls.dampingFactor = 0.05
 // Helpers
 // scene.add(new THREE.AxesHelper(200));
 
-
 const drawingBoard = new THREE.Group();
 
 
@@ -62,13 +62,7 @@ const breadth = 600;
 
 
 // Material
-const material = new THREE.MeshStandardMaterial({
-  color: "cyan",
-  side: THREE.DoubleSide,
-  metalness: 0.6,
-  roughness: 0.6,
-  wireframe: false
-});
+const material = getTexturedMaterial();
 
 
 // Extrude Path
@@ -141,7 +135,16 @@ window.addEventListener('dblclick', (event) => {
   // this method returns an array
   const intersectWithObjects = raycaster.intersectObjects(drawingBoard.children);
 
-  if(intersectWithObjects.length === 0) return;
+  if(intersectWithObjects.length === 0) {
+    // handle Here for when clicked on the scene
+    // call the highLightGroup method with clicked object type = scene, clicked object = scene and rest all
+    // and in that function write a condition for type === scene where we will apply the same textures again
+    drawingBoard.children.forEach((group) => {
+      group.children.forEach((child) => {
+        child.material = material;
+      })
+    });
+  }
 
   
   const clickedObject = intersectWithObjects[0].object;
