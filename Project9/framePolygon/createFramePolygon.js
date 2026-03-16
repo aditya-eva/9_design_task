@@ -3,11 +3,11 @@ import { transformFrameVertex } from "./transformFrameVertices";
 import { createMeshWithEdges } from "../createMeshWithEdges";
 import { createHandle } from "../createHandle";
 
-export function createFramePolygon(rectangularPath, shapesArray, material, length, breadth, handlePosition, handleSide, side, outerH1, outerWidth, GHH) {
+export function createFramePolygon(rectangularPath, shapesArray, material, length, breadth, handlePosition, handleSide, handleLength, handleWidth, side, outerH1, outerWidth, GHH) {
 
   const handle = createHandle({
-    length: 150,
-    width: 40,
+    length: handleLength,
+    width: handleWidth,
     depth: 8,
     side,
   });

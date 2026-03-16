@@ -52,6 +52,18 @@
     </div>
 
     <p class="section-label">Handle</p>
+
+    <div class="row">
+        <div>
+        <label>Handle Length</label>
+        <input type="number" id="handleLength" value="150" step="1">
+        </div>
+        <div>
+        <label>Handle Width</label>
+        <input type="number" id="handleWidth" value="40" step="1">
+        </div>
+    </div>
+
     <label>Side</label>
     <select id="side">
         <option value="left">Left</option>
@@ -60,8 +72,8 @@
 
     <label>Position (Inside/Outside)</label>
     <select id="handleSide">
-        <option value="outside">Outside</option>
         <option value="inside">Inside</option>
+        <option value="outside">Outside</option>
     </select>
 
     <label>Position on Bar</label>
@@ -80,6 +92,15 @@
         <option value="metallic">Metallic</option>
     </select>
 
+    <p class="section-label">GHH Value</p>
+    <div class="row">
+        <div>
+        <label>GHH</label>
+        <input type="number" id="ghh" value="100" step="1">
+        </div>
+        <div></div>
+    </div>
+    
     <button id="update">↺ Rebuild Scene</button>
     <div id="status"></div>
     </div>

@@ -120,8 +120,8 @@ export function createHandle({
   const path3 = new THREE.CurvePath();
   path3.add(new THREE.CubicBezierCurve3(
     new THREE.Vector3(0, -45 * fy, 0),      // start (existing end)
-    new THREE.Vector3(0, -60 * fy, 0),  // control point 1
-    new THREE.Vector3(14*fx, -60 * fy, 0),  // control point 2
+    new THREE.Vector3(0, -70 * fy, 0),  // control point 1
+    new THREE.Vector3(14*fx, -70 * fy, 0),  // control point 2
     new THREE.Vector3(14*fx, -45 * fy, 0)       // final handle end
   ))
   const semiShape = new THREE.Shape(path3.getPoints(100));
