@@ -35,8 +35,13 @@ export function createHandle2D() {
   
   const path2 = new THREE.Path();
   path2.moveTo(-width/6, length/4 - length/20);
-  path.lineTo(-width/6, length/3);
-  const geometry2 = new THREE.BufferGeometry().setFromPoints(path.getPoints(100));
+  path2.lineTo(-width/6, length/3);
+  path2.lineTo(0, length/3);
+  path2.lineTo(width/6, length/4);
+  path2.lineTo(width/3 - width/20, length/4 - length/30);
+  path2.lineTo(width/3 - width/20, length/4 - length/16);
+
+  const geometry2 = new THREE.BufferGeometry().setFromPoints(path2.getPoints(100));
 
   const material2 = new THREE.LineBasicMaterial({
     color: "black",
@@ -45,5 +50,18 @@ export function createHandle2D() {
   const mesh2 = new THREE.Line(geometry2, material2);
   group.add(mesh2);
 
+  const path3 = new THREE.Path();
+  path3.moveTo(-2, length/12)
+  path3.moveTo(-2, 0)
+  // path3.moveTo(-2, 0)
+  
+  const geometry3 = new THREE.BufferGeometry().setFromPoints(path3.getPoints(100));
+
+  const material3 = new THREE.LineBasicMaterial({
+    color: "black",
+    side: THREE.DoubleSide
+  });
+  const mesh3 = new THREE.Line(geometry3, material3);
+  group.add(mesh3)
   return group;
 }
