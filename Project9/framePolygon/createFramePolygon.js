@@ -8,7 +8,7 @@ export function createFramePolygon(rectangularPath, shapesArray, material, lengt
   const handle = createHandle({
     length: handleLength,
     width: handleWidth,
-    depth: 8,
+    depth: 5,
     side,
   });
 

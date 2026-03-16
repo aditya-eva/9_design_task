@@ -8,6 +8,7 @@ import { highLightGroup } from "./highlightGroup";
 import { createGlassForWindow } from "./createGlass";
 import { getTexturedMaterial } from "./textures";
 import { moveLight } from "./moveLight"
+import { createHandle2D } from "./createHandle2D"
 
 
 function getParams() {
@@ -55,7 +56,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   10000
 );
-camera.position.z = 800;
+camera.position.z = 300;
 
 
 // Renderer
@@ -104,6 +105,11 @@ function buildScene(params){
 
   const GHH = ghhValue
 
+  if(GHH >= breadth) {
+    alert(`GHH cannot be greater than ${breadth}.`)
+    GHH = breadth/2;
+  }
+ 
   const handleIndex = getHandleIndex(handlePosition);
   // remove old geometry
   while(drawingBoard.children.length){
@@ -214,6 +220,10 @@ function buildScene(params){
   drawingBoard.position.y = -breadth/2;
 }
 
+const mesh = createHandle2D();
+scene.add(mesh);
+// scene.add(new THREE.AxesHelper(100))
+
 document
 .getElementById("update")
 .addEventListener("click", () => {
@@ -272,7 +282,7 @@ window.addEventListener('dblclick', (event) => {
   highLightGroup(clickedObjectType, clickedObject, drawingBoard, outerGroup, beadGroup, outerSelected, beadSelected);
 })
 
-scene.add(drawingBoard);
+// scene.add(drawingBoard);
 
 
 renderer.outputColorSpace = THREE.SRGBColorSpace;

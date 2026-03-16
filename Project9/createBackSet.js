@@ -1,6 +1,6 @@
 import * as THREE from 'three';
  
-export function createBackSet(originX, originY, width, height, side){
+export function createBackSet(originX, originY, width, height){
  
     const arc=2*width/15;
     const shape=new THREE.Shape();
@@ -16,9 +16,10 @@ export function createBackSet(originX, originY, width, height, side){
     shape.lineTo(originX+width/3,originY+height/12-arc);
     shape.lineTo(originX+width/3,originY);
     shape.lineTo(originX,originY);
- 
+    
+    const depth = 5;
     const extrudedSettings={
-        depth:8,
+        depth,
         bevelEnabled:false
     }
  
@@ -36,5 +37,7 @@ export function createBackSet(originX, originY, width, height, side){
     const material= new THREE.MeshBasicMaterial({color:'white'});
     const mesh=new THREE.Mesh(geometry,material);
 
-    return mesh;
+    return {
+        mesh, depth
+    };
 }

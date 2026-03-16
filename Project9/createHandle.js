@@ -4,20 +4,23 @@ import { createBackSet } from "./createBackSet";
 export function createHandle({
   length = 150,
   width = 40,
-  depth = 10,
+  depth,
   side = "left"
 } = {}) {
 
   const group = new THREE.Group();
 
-  const backSet = createBackSet(0, 0, width/2, length/1.5);
+  const objectBack = createBackSet(0, 0, width/2, length/1.5);
+  const backSet = objectBack.mesh;
   // console.log(backSet)
   group.add(backSet);
 
   const pivot = new THREE.Group();
   backSet.add(pivot);
+  // console.log(backSet)
 
-  pivot.position.set(width/4, length/15, depth);
+  pivot.position.set(width/4, length/15, 0);
+  pivot.position.z += objectBack.depth
 
   const v1 = {
     x: pivot.position.x,
@@ -25,7 +28,7 @@ export function createHandle({
     z: pivot.position.z - 1
   }
   
-  const sphereGeo = new THREE.SphereGeometry(15*width/length);
+  const sphereGeo = new THREE.SphereGeometry(5);
 
   const sphereMat = new THREE.MeshStandardMaterial({
     color: "white"
@@ -33,7 +36,7 @@ export function createHandle({
 
   const sphere = new THREE.Mesh(sphereGeo, sphereMat);
 
-  sphere.position.set(v1.x , v1.y + v1.y/2, v1.z + 8);
+  sphere.position.set(v1.x , v1.y + v1.y/2, v1.z + depth);
 
   group.add(sphere)
 
@@ -85,7 +88,7 @@ export function createHandle({
   path2.add(
     new THREE.CubicBezierCurve3(
       new THREE.Vector3(0, -8 * fy, 0),
-      new THREE.Vector3(0, -15 * fy, 0),
+      new THREE.Vector3(0, -10 * fy, 0),
       new THREE.Vector3(0, -15 * fy, depth),
       new THREE.Vector3(0, -20 * fy, depth)
     )
@@ -120,8 +123,8 @@ export function createHandle({
   const path3 = new THREE.CurvePath();
   path3.add(new THREE.CubicBezierCurve3(
     new THREE.Vector3(0, -45 * fy, 0),      // start (existing end)
-    new THREE.Vector3(0, -70 * fy, 0),  // control point 1
-    new THREE.Vector3(14*fx, -70 * fy, 0),  // control point 2
+    new THREE.Vector3(0, -60 * fy, 0),  // control point 1
+    new THREE.Vector3(14*fx, -60 * fy, 0),  // control point 2
     new THREE.Vector3(14*fx, -45 * fy, 0)       // final handle end
   ))
   const semiShape = new THREE.Shape(path3.getPoints(100));
@@ -134,7 +137,6 @@ export function createHandle({
   semiMesh.position.z = depth
   semiMesh.position.y += 3 * fy
   pivot.add(semiMesh);
-  group.position.set(-width/2, -length/2, 0);
 
   // -------- LEFT / RIGHT HANDLE --------
   
