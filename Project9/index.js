@@ -7,6 +7,8 @@ import { createBeadPolygon } from "./beadPolygon/createBeadPolygon";
 import { highLightGroup } from "./highlightGroup";
 import { createGlassForWindow } from "./createGlass";
 import { getTexturedMaterial } from "./textures";
+import { moveLight } from "./moveLight"
+import { createHandle } from "./createHandle";
 
 
 // Scene
@@ -21,7 +23,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   10000
 );
-camera.position.z = 500;
+camera.position.z = 800;
 
 
 // Renderer
@@ -52,7 +54,7 @@ window.addEventListener("resize", () => {
 // Section Parameters
 const outerHeight = 40;
 const outerWidth = 40;
-const outerH1 = 0.4*outerHeight;
+const outerH1 = 0.4 * outerHeight;
 const beadHeight = 20;
 const beadWidth = 12;
 
@@ -64,10 +66,9 @@ const breadth = 600;
 // Material
 const material = getTexturedMaterial();
 
-
 // Extrude Path
+// debugger
 const rectangularPath = new ExtrudePath({ length, breadth });
-
 
 // outer Profile edges 
 const outerProfileShape = new BasicShapes({
@@ -80,9 +81,14 @@ const outerProfileShape = new BasicShapes({
 let outerShapesArray = [outerProfileShape, outerProfileShape, outerProfileShape, outerProfileShape];
 
 // outer Polygon
-const outerFramePolygon = createFramePolygon(rectangularPath, outerShapesArray, material, length, breadth);
+const handlePosition = 1;
+const handleSide = "inside";
+const handleType = "left";
+const GHH = breadth/2;
+
+const outerFramePolygon = createFramePolygon(rectangularPath, outerShapesArray, material, length, breadth, handlePosition, handleSide, handleType, outerH1, outerWidth, GHH);
 // add outer to the board
-outerFramePolygon.position.z += 0             
+outerFramePolygon.position.z += 0
 drawingBoard.add(outerFramePolygon)
 
 
@@ -99,25 +105,26 @@ let beadShapeArray = [beadProfileShape, beadProfileShape, beadProfileShape, bead
 const beadPolygon = createBeadPolygon(rectangularPath, outerFramePolygon, beadShapeArray, material, outerH1, beadHeight, length, breadth);
 beadPolygon.position.z = outerFramePolygon.position.z
 // add bead to the board
-drawingBoard.position.x = - length/2
-drawingBoard.position.y = - breadth/2
+drawingBoard.position.x = - length / 2
+drawingBoard.position.y = - breadth / 2
 drawingBoard.add(beadPolygon);
 
 
-const glass = createGlassForWindow(length-2*outerH1-2*beadHeight, breadth-2*outerH1-2*beadHeight)
-glass.position.x = length/2
-glass.position.y = breadth/2
+const glass = createGlassForWindow(length - 2 * outerH1 - 2 * beadHeight, breadth - 2 * outerH1 - 2 * beadHeight)
+glass.position.x = length / 2
+glass.position.y = breadth / 2
 glass.position.z = beadPolygon.position.z - beadHeight
 drawingBoard.add(glass)
 
-
+const selectedColor = "#D3D3D3"
+const restColors = "#2E2E2E"
 // outerSelected is the material for selected outer mesh (light) and outerGroup is the material for rest all outer meshes (dark)
-const outerSelected = new THREE.MeshStandardMaterial({ color: "skyblue" });
-const outerGroup = new THREE.MeshStandardMaterial({ color: "blue" });
+const outerSelected = new THREE.MeshStandardMaterial({ color: selectedColor });
+const outerGroup = new THREE.MeshStandardMaterial({ color: restColors });
 
 // beadSelected is the material for selected bead mesh (light) and beadGroup is the material for rest all bead meshes (dark)
-const beadSelected = new THREE.MeshStandardMaterial({ color: "skyblue" });
-const beadGroup = new THREE.MeshStandardMaterial({ color: "blue" });
+const beadSelected = new THREE.MeshStandardMaterial({ color: selectedColor });
+const beadGroup = new THREE.MeshStandardMaterial({ color: restColors });
 
 // raycaster part 
 const raycaster = new THREE.Raycaster();
@@ -131,22 +138,22 @@ window.addEventListener('dblclick', (event) => {
 
 
   raycaster.setFromCamera(mouse, camera);
- 
+
   // this method returns an array
   const intersectWithObjects = raycaster.intersectObjects(drawingBoard.children);
 
-  if(intersectWithObjects.length === 0) {
+  if (intersectWithObjects.length === 0) {
     // handle Here for when clicked on the scene
-    // call the highLightGroup method with clicked object type = scene, clicked object = scene and rest all
-    // and in that function write a condition for type === scene where we will apply the same textures again
     drawingBoard.children.forEach((group) => {
       group.children.forEach((child) => {
-        child.material = material;
+        console.log(child)
+        if (child.userData.type === "bead" || child.userData.type === "outer")
+          child.material = material;
       })
     });
   }
 
-  
+
   const clickedObject = intersectWithObjects[0].object;
   const clickedObjectType = clickedObject.userData.type;
 
@@ -161,13 +168,19 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 // Lighting
 scene.add(new THREE.AmbientLight("white", 3));
-const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
 
-directionalLight.position.set(150, 150, 150); 
+const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+directionalLight.position.set(150, 150, 150);
 scene.add(directionalLight);
+
+const pointLight = new THREE.PointLight("white", 60, 50);
+// scene.add(new THREE.PointLightHelper(pointLight, 3, "red"))
+scene.add(pointLight)
+
 
 // Animate
 function animate() {
+  moveLight(pointLight, length, breadth, outerHeight);
   requestAnimationFrame(animate);
   controls.update();
   renderer.render(scene, camera);

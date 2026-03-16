@@ -5,7 +5,7 @@ export function createGlassForWindow(length, width) {
   const glassGeometry = new THREE.BoxGeometry(length, width, 20);
 
   const glassMaterial = new THREE.MeshStandardMaterial({
-    color: "#70cae9",
+    color: "#469db9",
     transparent: true,
     metalness: 0,
     side: THREE.DoubleSide
