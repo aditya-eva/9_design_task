@@ -10,7 +10,7 @@ export function createHandle({
 
   const group = new THREE.Group();
 
-  const objectBack = createBackSet(0, 0, width/2, length/1.5);
+  const objectBack = createBackSet(0, 0, width/2, 2*length/5);
   const backSet = objectBack.mesh;
   // console.log(backSet)
   group.add(backSet);
@@ -19,7 +19,7 @@ export function createHandle({
   backSet.add(pivot);
   // console.log(backSet)
 
-  pivot.position.set(width/4, length/15, 0);
+  pivot.position.set(width/8, length/18.5, 0);
   pivot.position.z += objectBack.depth
 
   const v1 = {
@@ -27,22 +27,23 @@ export function createHandle({
     y: pivot.position.y,
     z: pivot.position.z - 1
   }
+  const fx = width / 50;
+  const fy = length / 250;
   
-  const sphereGeo = new THREE.SphereGeometry(5);
+  const sphere = new THREE.SphereGeometry(width/9);
 
-  const sphereMat = new THREE.MeshStandardMaterial({
+  const sphMat = new THREE.MeshStandardMaterial({
     color: "white"
   })
 
-  const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+  const sphereMesh = new THREE.Mesh(sphere, sphMat);
+  // cylinderMesh.rotation.x = Math.PI/2
 
-  sphere.position.set(v1.x , v1.y + v1.y/2, v1.z + depth);
-
-  group.add(sphere)
-
-  const fx = width / 50;
-  const fy = length / 200;
-
+  
+  group.add(sphereMesh)
+  
+  sphereMesh.position.set(v1.x , v1.y + v1.y/2, v1.z + depth);
+  
   const material = new THREE.MeshStandardMaterial({
     color: "black",
     roughness: 0.3,
@@ -122,10 +123,10 @@ export function createHandle({
   
   const path3 = new THREE.CurvePath();
   path3.add(new THREE.CubicBezierCurve3(
-    new THREE.Vector3(0, -45 * fy, 0),      // start (existing end)
-    new THREE.Vector3(0, -60 * fy, 0),  // control point 1
-    new THREE.Vector3(14*fx, -60 * fy, 0),  // control point 2
-    new THREE.Vector3(14*fx, -45 * fy, 0)       // final handle end
+    new THREE.Vector3(0, -45 * fy, 0),
+    new THREE.Vector3(0, -60 * fy, 0),  
+    new THREE.Vector3(14*fx, -60 * fy, 0),  
+    new THREE.Vector3(14*fx, -45 * fy, 0)       
   ))
   const semiShape = new THREE.Shape(path3.getPoints(100));
 

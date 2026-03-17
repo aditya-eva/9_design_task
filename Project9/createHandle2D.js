@@ -4,8 +4,8 @@ import * as THREE from "three";
 export function createHandle2D(handleLen, handleWid, handleSide, handlePos) {
   const group = new THREE.Group();
   const path = new THREE.Path();
-  const length = 150;
-  const width = 40;
+  const length = handleLen;
+  const width = handleWid;
 
 
   path.moveTo(0, 0);
@@ -58,7 +58,7 @@ export function createHandle2D(handleLen, handleWid, handleSide, handlePos) {
 
 
   const path3 = new THREE.Path();
-  path3.moveTo(-2, length/16)
+  path3.moveTo(-2, length/24)
   path3.lineTo(-2, 0)
   path3.lineTo(-width/6, 0)
   path3.lineTo(-width/6, length/8)

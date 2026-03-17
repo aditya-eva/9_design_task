@@ -2,19 +2,14 @@ import * as THREE from 'three';
  
 export function createBackSet(originX, originY, width, height){
  
-    const arc=2*width/15;
+    
     const shape=new THREE.Shape();
     shape.moveTo(originX,originY);
-    shape.lineTo(originX,originY+height/3);
-    shape.lineTo(originX+width/3,originY+height/3);
-    shape.lineTo(originX+width/3,originY+height/3-height/12+arc);
-    shape.absarc(originX+width/3+arc,originY+height/3-height/12+arc,arc,Math.PI,3*Math.PI/2,false);
-    shape.lineTo(originX+width/3+arc,originX+height/3-height/12);
-    shape.absarc(originX+width/3+arc,originY+height/6,height/12,Math.PI,3*Math.PI/2,true);
-    shape.lineTo(originX+width/3+arc,originY+height/12);
-    shape.absarc(originX+width/3+arc,originY+height/12-arc,arc,Math.PI/2,Math.PI,false);
-    shape.lineTo(originX+width/3,originY+height/12-arc);
-    shape.lineTo(originX+width/3,originY);
+    shape.lineTo(originX, 2*height/5);
+    shape.lineTo(originX+width/3,originY+2*height/5);
+    shape.lineTo(originX+width/3,originY+3*height/10);
+    shape.absarc(originX+width/3,originY+height/5,width/3, Math.PI/2, -Math.PI/2, true);
+    shape.lineTo(originX+width/3,0);
     shape.lineTo(originX,originY);
     
     const depth = 5;
@@ -25,11 +20,11 @@ export function createBackSet(originX, originY, width, height){
  
     // w/6, 7h/24 , w/12
     const holePath = new THREE.Path();
-    holePath.absarc(width/6, 7*height/24, width/12, 0, Math.PI * 2);
+    holePath.absarc(originX + width/6, originY + height/20, width/12, 0, Math.PI * 2);
     
     // w/6, h/24 , w/12
     const holePath2 = new THREE.Path();
-    holePath2.absarc(width/6, height/24, width/12, 0, Math.PI * 2);
+    holePath2.absarc(originX + width/6, originY + 7*height/20, width/12, 0, Math.PI * 2);
 
     shape.holes.push(holePath)
     shape.holes.push(holePath2)
@@ -37,43 +32,29 @@ export function createBackSet(originX, originY, width, height){
     const material= new THREE.MeshBasicMaterial({color:'white'});
     const mesh=new THREE.Mesh(geometry,material);
 
-    const screwHeadGeo = new THREE.CylinderGeometry(width/12, width/12, 1, 32);
+    const screwHeadGeo = new THREE.CylinderGeometry(width/12, width/12, 0.5 , 32);
     const screwMat = new THREE.MeshStandardMaterial({
     color: 0x777777,
     metalness: 0.9,
     roughness: 0.3
     });
     const screwRadius = width/12;
-    const screwDepth = 1;
 
     // top screw
     const screw1 = new THREE.Mesh(screwHeadGeo, screwMat);
     screw1.rotation.x = Math.PI/2;
-    screw1.position.set(width/6, 7*height/24, depth + screwDepth/2);
+    screw1.position.set(width/6, 7*height/20, depth);
 
     // bottom screw
     const screw2 = screw1.clone();
-    screw2.position.set(width/6, height/24, depth + screwDepth/2);
+    screw2.position.set(width/6, height/20, depth);
 
     // cross slots
     const lineSize = screwRadius * 1.2;
-
-    // top screw lines
-    const lines1 = createScrewLines(lineSize);
-    lines1.rotation.x = -Math.PI/2;
-    lines1.position.set(width/6, 7*height/24, depth + screwDepth + 0.02);
-
-    // bottom screw lines
-    const lines2 = lines1.clone();
-    lines2.position.set(width/6, height/24, depth + screwDepth + 0.02);
-
-    mesh.add(lines1);
-    mesh.add(lines2);
-
     mesh.add(screw1);
     mesh.add(screw2);
-    mesh.add(lines1);
-    mesh.add(lines2);
+    // mesh.add(lines1);
+    // mesh.add(lines2);
 
     return {
         mesh, depth
