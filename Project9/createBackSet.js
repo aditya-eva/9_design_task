@@ -37,7 +37,69 @@ export function createBackSet(originX, originY, width, height){
     const material= new THREE.MeshBasicMaterial({color:'white'});
     const mesh=new THREE.Mesh(geometry,material);
 
+    const screwHeadGeo = new THREE.CylinderGeometry(width/12, width/12, 1, 32);
+    const screwMat = new THREE.MeshStandardMaterial({
+    color: 0x777777,
+    metalness: 0.9,
+    roughness: 0.3
+    });
+    const screwRadius = width/12;
+    const screwDepth = 1;
+
+    // top screw
+    const screw1 = new THREE.Mesh(screwHeadGeo, screwMat);
+    screw1.rotation.x = Math.PI/2;
+    screw1.position.set(width/6, 7*height/24, depth + screwDepth/2);
+
+    // bottom screw
+    const screw2 = screw1.clone();
+    screw2.position.set(width/6, height/24, depth + screwDepth/2);
+
+    // cross slots
+    const lineSize = screwRadius * 1.2;
+
+    // top screw lines
+    const lines1 = createScrewLines(lineSize);
+    lines1.rotation.x = -Math.PI/2;
+    lines1.position.set(width/6, 7*height/24, depth + screwDepth + 0.02);
+
+    // bottom screw lines
+    const lines2 = lines1.clone();
+    lines2.position.set(width/6, height/24, depth + screwDepth + 0.02);
+
+    mesh.add(lines1);
+    mesh.add(lines2);
+
+    mesh.add(screw1);
+    mesh.add(screw2);
+    mesh.add(lines1);
+    mesh.add(lines2);
+
     return {
         mesh, depth
     };
+}
+
+
+function createScrewLines(size){
+    const material = new THREE.LineBasicMaterial({
+        color: 0xffffff
+    });
+
+    const points1 = [
+        new THREE.Vector3(-size/2, 0, 0),
+        new THREE.Vector3(size/2, 0, 0)
+    ];
+
+    const geo1 = new THREE.BufferGeometry().setFromPoints(points1);
+
+    const line1 = new THREE.Line(geo1, material);
+
+    const group = new THREE.Group();
+    group.add(line1);
+    const line2 = line1.clone();
+    line2.rotateY(Math.PI/2)
+    group.add(line2);
+
+    return group;
 }
