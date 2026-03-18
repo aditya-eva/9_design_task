@@ -10,8 +10,6 @@ export function createHandle({
   backSetDepth,
   side = "left"
 } = {}) {
-
-
   const group = new THREE.Group();
 
   // handle takes 90% of the total length
@@ -29,7 +27,7 @@ export function createHandle({
 
   // groupng the handle
   const handleGroup = new THREE.Group();
-  // handleGroup.position.set(originX, originY, 0)
+  handleGroup.position.set(originX, originY, 0)
 
 
   // sphere on the handle part to give a pivot point type feel
@@ -52,7 +50,7 @@ export function createHandle({
   const beakPath = new THREE.CurvePath();
   beakPath.add(
     new THREE.CubicBezierCurve(
-      new THREE.Vector2(width/3, originY -handleLength/8),
+      new THREE.Vector2(width/3, -handleLength/8),
       new THREE.Vector2(width/3, handleLength/8),
       new THREE.Vector2(-width/3, handleLength/8),
       new THREE.Vector2(-width/3, handleLength/16)
