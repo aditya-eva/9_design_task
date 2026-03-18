@@ -10,6 +10,7 @@
     <div id="ui">
     <h2>⬡ Window Config</h2>
 
+
     <p class="section-label">Frame Dimensions</p>
     <div class="row">
         <div>
@@ -21,6 +22,7 @@
         <input type="number" id="breadth" value="200" step="10">
         </div>
     </div>
+
 
     <p class="section-label">Section Profile</p>
     <div class="row">
@@ -51,7 +53,21 @@
         <div></div>
     </div>
 
+
     <p class="section-label">Handle</p>
+
+
+    <div class="row">
+        <div>
+        <label>Handle Depth</label>
+        <input type="number" id="handleDepth" value="5" step="1">
+        </div>
+        <div>
+        <label>Backset Depth</label>
+        <input type="number" id="backSetDepth" value="5" step="1">
+        </div>
+    </div>
+
 
     <div class="row">
         <div>
@@ -64,17 +80,20 @@
         </div>
     </div>
 
+
     <label>Side</label>
     <select id="side">
         <option value="left">Left</option>
         <option value="right">Right</option>
     </select>
 
+
     <label>Position (Inside/Outside)</label>
     <select id="handleSide">
         <option value="inside">Inside</option>
         <option value="outside">Outside</option>
     </select>
+
 
     <label>Position on Bar</label>
     <select id="handlePosition">
@@ -84,6 +103,7 @@
         <option value="bottom">Bottom bar</option>
     </select>
 
+
     <p class="section-label">Display</p>
     <label>Material</label>
     <select id="material">
@@ -91,6 +111,7 @@
         <option value="wireframe">Wireframe</option>
         <option value="metallic">Metallic</option>
     </select>
+
 
     <p class="section-label">GHH Value</p>
     <div class="row">
@@ -100,7 +121,7 @@
         </div>
         <div></div>
     </div>
-    
+   
     <button id="update">↺ Rebuild Scene</button>
     <div id="status"></div>
     </div>

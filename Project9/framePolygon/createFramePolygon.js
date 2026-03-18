@@ -3,14 +3,18 @@ import { transformFrameVertex } from "./transformFrameVertices";
 import { createMeshWithEdges } from "../createMeshWithEdges";
 import { createHandle } from "../createHandle";
 
-export function createFramePolygon(rectangularPath, shapesArray, material, length, breadth, handlePosition, handleSide, handleLength, handleWidth, side, outerH1, outerWidth, GHH) {
+export function createFramePolygon(rectangularPath, shapesArray, material, length, breadth, handlePosition, handleSide, handleLength, handleWidth, side, outerH1, outerWidth, GHH, handleDepth, backSetDepth) {
 
   const handle = createHandle({
+    originX:0,
+    originY:0,
     length: handleLength,
     width: handleWidth,
-    depth: 5,
+    depth: handleDepth,
+    backSetDepth,
     side,
   });
+
 
   const outerEdges = rectangularPath.getRectangleEdges(0, 0);
   const frameGroup = new THREE.Group();

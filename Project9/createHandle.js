@@ -1,134 +1,123 @@
 import * as THREE from "three";
 import { createBackSet } from "./createBackSet";
 
+
+
+
 export function createHandle({
+  originX,
+  originY,
   length = 150,
   width = 40,
   depth,
+  backSetDepth,
   side = "left"
 } = {}) {
 
-  const group = new THREE.Group();
 
-  const objectBack = createBackSet(0, 0, width/2, 2*length/5);
+  const group = new THREE.Group();
+  const handleLength = 0.9 * length;
+
+
+  const objectBack = createBackSet(0, 0, width, 0.1*length + handleLength * 0.25, backSetDepth);
   const backSet = objectBack.mesh;
-  // console.log(backSet)
   group.add(backSet);
 
-  const pivot = new THREE.Group();
-  backSet.add(pivot);
-  // console.log(backSet)
 
-  pivot.position.set(width/8, length/18.5, 0);
-  pivot.position.z += objectBack.depth
+  const box = new THREE.Box3().setFromObject(backSet);
+  const center = new THREE.Vector3();
+  box.getCenter(center);
 
-  const v1 = {
-    x: pivot.position.x,
-    y: pivot.position.y,
-    z: pivot.position.z - 1
-  }
-  const fx = width / 50;
-  const fy = length / 250;
-  
-  const sphere = new THREE.SphereGeometry(width/9);
 
+  const handleGroup = new THREE.Group();
+  handleGroup.position.set(originX, originY, 0)
+  const sphere = new THREE.SphereGeometry(width / 10);
   const sphMat = new THREE.MeshStandardMaterial({
     color: "white"
   })
-
   const sphereMesh = new THREE.Mesh(sphere, sphMat);
-  // cylinderMesh.rotation.x = Math.PI/2
+  sphereMesh.position.z = depth
+  handleGroup.add(sphereMesh)
 
-  
-  group.add(sphereMesh)
-  
-  sphereMesh.position.set(v1.x , v1.y + v1.y/2, v1.z + depth);
-  
+
   const material = new THREE.MeshStandardMaterial({
     color: "black",
     roughness: 0.3,
     metalness: 0.2
   });
 
+
   // -------- HANDLE TOP --------
-
   const path = new THREE.CurvePath();
-
   path.add(
     new THREE.CubicBezierCurve(
-      new THREE.Vector2(14 * fx, -5 * fy),
-      new THREE.Vector2(14 * fx, 25 * fy),
-      new THREE.Vector2(-13 * fx, 25 * fy),
-      new THREE.Vector2(-13 * fx, 15 * fy)
+      new THREE.Vector2(width/3, originY -handleLength/8),
+      new THREE.Vector2(width/3, handleLength/8),
+      new THREE.Vector2(-width/3, handleLength/8),
+      new THREE.Vector2(-width/3, handleLength/16)
     )
   );
-
   path.add(
     new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-13 * fx, 15 * fy, 0),
-      new THREE.Vector3(-20 * fx, 5 * fy, 0),
-      new THREE.Vector3(0, -5 * fy, 0)
+      new THREE.Vector3(-width/3, handleLength/16, 0),
+      new THREE.Vector3(-2*width/3, 0, 0),
+      new THREE.Vector3(0, -handleLength/8, 0)
     ])
   );
-
   const shape = new THREE.Shape(path.getPoints(100));
-
   const geometry = new THREE.ExtrudeGeometry(shape, {
     depth: depth,
     bevelEnabled: false
   });
-
   const mesh = new THREE.Mesh(geometry, material);
+  handleGroup.add(mesh);
 
-  pivot.add(mesh);
-  
+
   // -------- HANDLE STEM --------
-  
   const path2 = new THREE.CurvePath();
-  
   path2.add(
     new THREE.CubicBezierCurve3(
-      new THREE.Vector3(0, -8 * fy, 0),
-      new THREE.Vector3(0, -10 * fy, 0),
-      new THREE.Vector3(0, -15 * fy, depth),
-      new THREE.Vector3(0, -20 * fy, depth)
+      new THREE.Vector3(0, -handleLength/8, 0),
+      new THREE.Vector3(0, -handleLength/7, 0),
+      new THREE.Vector3(0, -handleLength/5, depth),
+      new THREE.Vector3(0, -handleLength/4, depth)
     )
   );
-  
   path2.add(
     new THREE.LineCurve3(
-      new THREE.Vector3(0, -20 * fy, depth),
-      new THREE.Vector3(0, -45 * fy, depth)
+      new THREE.Vector3(0, -handleLength/4, depth),
+      new THREE.Vector3(0, -7*handleLength/8 + 5*handleLength/32, depth)
     )
   );
-  
   const shape2 = new THREE.Shape();
-  
   shape2.moveTo(0, 0);
-  shape2.lineTo(14 * fx, 0);
-  shape2.lineTo(14 * fx, depth);
+  shape2.lineTo(width/3, 0);
+  shape2.lineTo(width/3, depth);
   shape2.lineTo(0, depth);
   shape2.lineTo(0, 0);
-  
+
+
   const geometry2 = new THREE.ExtrudeGeometry(shape2, {
-    steps: 200,
+    steps: 2000,
     extrudePath: path2,
     bevelEnabled: false
   });
-  
+
+
   const mesh2 = new THREE.Mesh(geometry2, material);
-  mesh2.position.set(14 * fx, 3 * fy, depth);
-  
-  pivot.add(mesh2);
-  
+  mesh2.position.set(width/3, 0, depth);
+  handleGroup.add(mesh2);
   const path3 = new THREE.CurvePath();
+
+
   path3.add(new THREE.CubicBezierCurve3(
-    new THREE.Vector3(0, -45 * fy, 0),
-    new THREE.Vector3(0, -60 * fy, 0),  
-    new THREE.Vector3(14*fx, -60 * fy, 0),  
-    new THREE.Vector3(14*fx, -45 * fy, 0)       
+    new THREE.Vector3(0, -7*handleLength/8 + 5*handleLength/32, 0),
+    new THREE.Vector3(0, -handleLength + handleLength/8, 0),
+    new THREE.Vector3(width/3, -handleLength + handleLength/8, 0),
+    new THREE.Vector3(width/3, -7*handleLength/8 + 5*handleLength/32, 0)
   ))
   const semiShape = new THREE.Shape(path3.getPoints(100));
+
 
   const semiGeo = new THREE.ExtrudeGeometry(semiShape, {
     depth: depth,
@@ -136,20 +125,15 @@ export function createHandle({
   });
   const semiMesh = new THREE.Mesh(semiGeo, material);
   semiMesh.position.z = depth
-  semiMesh.position.y += 3 * fy
-  pivot.add(semiMesh);
 
+
+  handleGroup.add(semiMesh);
+  handleGroup.position.copy(center);
+  handleGroup.position.z = backSetDepth
+  group.add(handleGroup)
   // -------- LEFT / RIGHT HANDLE --------
-  
   if (side === "right") {
-
-    // mirror geometry
     group.scale.x = -1;
-
-    // shift because mirror flips origin
-    // group.position.x = 20;
-
   }
-
   return group;
 }

@@ -11,8 +11,6 @@ import { moveLight } from "./moveLight"
 import { createHandle2D } from "./createHandle2D"
 
 
-
-
 function getParams() {
   return {
     length: +document.getElementById("length").value,
@@ -31,12 +29,17 @@ function getParams() {
     side: document.getElementById("side").value,
     handleSide: document.getElementById("handleSide").value,
     handlePosition: document.getElementById("handlePosition").value,
+    handleDepth: Number(document.getElementById("handleDepth").value),
+    backSetDepth: Number(document.getElementById("backSetDepth").value),
 
 
     materialMode: document.getElementById("material").value,
     ghhValue: document.getElementById("ghh").value
   };
 }
+
+
+
 
 function getHandleIndex(position){
   const map = {
@@ -63,10 +66,16 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.z = 300;
 
+
+
+
 // Renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+
+
 
 // Controls
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -74,7 +83,14 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.05
 
 
+// Helpers
+// scene.add(new THREE.AxesHelper(200));
+
+
 const drawingBoard = new THREE.Group();
+
+
+
 
 // Resize
 window.addEventListener("resize", () => {
@@ -82,6 +98,9 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+
+let globalMaterial;
 
 
 function buildScene(params){
@@ -93,6 +112,8 @@ function buildScene(params){
     outerH1,
     beadHeight,
     beadWidth,
+    handleDepth,
+    backSetDepth,
     handleLength,
     handleWidth,
     side,
@@ -101,6 +122,9 @@ function buildScene(params){
     materialMode,
     ghhValue
   } = params;
+
+
+  // console.log(handleDepth)
 
 
   outerH1 = 0.4*outerHeight
@@ -123,7 +147,7 @@ function buildScene(params){
 
 
   // material selection
-  let material = getTexturedMaterial();
+  let material;
   if(materialMode === "wireframe"){
     material = new THREE.MeshStandardMaterial({
       color:"cyan",
@@ -140,6 +164,9 @@ function buildScene(params){
   else{
     material = getTexturedMaterial();
   }
+
+
+  globalMaterial = material;
 
 
   // ───────── EXTRUDE PATH ─────────
@@ -175,7 +202,9 @@ function buildScene(params){
     side,
     outerH1,
     outerWidth,
-    GHH
+    GHH,
+    handleDepth,
+    backSetDepth
   );
 
 
@@ -264,6 +293,8 @@ buildScene(getParams());
 
 const selectedColor = "#D3D3D3"
 const restColors = "#2E2E2E"
+
+
 // outerSelected is the material for selected outer mesh (light) and outerGroup is the material for rest all outer meshes (dark)
 const outerSelected = new THREE.MeshStandardMaterial({ color: selectedColor });
 const outerGroup = new THREE.MeshStandardMaterial({ color: restColors });
@@ -278,12 +309,20 @@ const beadGroup = new THREE.MeshStandardMaterial({ color: restColors });
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
+
+
+
 window.addEventListener('dblclick', (event) => {
   // convert the mouse coordinates to -1 to 1 that is conversion of NDC (screen coords -> Normalized device coords)
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
+
+
+
   raycaster.setFromCamera(mouse, camera);
+
+
   // this method returns an array
   const intersectWithObjects = raycaster.intersectObjects(drawingBoard.children);
 
@@ -292,25 +331,25 @@ window.addEventListener('dblclick', (event) => {
     // handle Here for when clicked on the scene
     drawingBoard.children.forEach((group) => {
       group.children.forEach((child) => {
-        
+        console.log(child)
         if (child.userData.type === "bead" || child.userData.type === "outer")
-          child.material = material;
+          child.material = globalMaterial;
       })
     });
-    return;
   }
+
+
+
+
   const clickedObject = intersectWithObjects[0].object;
   const clickedObjectType = clickedObject.userData.type;
 
+
+
+
   highLightGroup(clickedObjectType, clickedObject, drawingBoard, outerGroup, beadGroup, outerSelected, beadSelected);
 })
-
-
 scene.add(drawingBoard);
-
-
-
-
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 
@@ -333,7 +372,7 @@ scene.add(pointLight)
 
 // Animate
 function animate() {
-  moveLight(pointLight, length, breadth, outerHeight);
+  // moveLight(pointLight, length, breadth, outerHeight);
   requestAnimationFrame(animate);
   controls.update();
   renderer.render(scene, camera);
